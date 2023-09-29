@@ -1,0 +1,9 @@
+<!-- edittext_bg.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFFFF" /> <!-- Màu nền của ô nhập liệu -->
+    <corners android:radius="8dp" /> <!-- Độ cong của góc -->
+    <stroke
+        android:width="1dp"
+        android:color="#A9A9A9" /><!-- Độ dày của đường viền -->
+   />
+</shape>

@@ -1,0 +1,21 @@
+<!-- res/drawable/dialog_background.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Màu nền cho dialog -->
+    <item android:id="@android:id/background">
+        <shape>
+            <solid android:color="#FFFFFF" /> <!-- Màu nền của dialog -->
+            <corners android:radius="16dp" /> <!-- Độ cong góc của dialog -->
+        </shape>
+    </item>
+
+    <!-- Viền bo tròn cho dialog -->
+    <item android:id="@android:id/accessibilityActionContextClick">
+        <shape>
+            <solid android:color="#00000000" /> <!-- Màu trong suốt -->
+            <stroke
+                android:width="2dp"
+            android:color="#41B846" /> <!-- Màu viền của dialog -->
+            <corners android:radius="16dp" /> <!-- Độ cong góc của dialog -->
+        </shape>
+    </item>
+</layer-list>

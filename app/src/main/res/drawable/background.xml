@@ -1,0 +1,5 @@
+<!-- background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#C8B5EC" /> <!-- Màu nền của giao diện -->
+    <corners android:radius="16dp" /> <!-- Độ cong của góc -->
+</shape>

@@ -1,5 +1,6 @@
 package hieunnph32561.fpoly.du_an_mau_ph32561.dao;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -18,15 +19,16 @@ public class loaisachDAO {
         mySQLite=new Dbhelper(context);
         db=mySQLite.getWritableDatabase();
     }
-    public long insert(Loaisach loaisach ){
-        ContentValues values=new ContentValues();
-        values.put("THELOAI",loaisach.getTenLoai());
-        return db.insert("LOAISACH",null,values);
-    }
-    public int upate(Loaisach l){
-        ContentValues values=new ContentValues();
-        values.put("tenLoai",l.getTenLoai());
-        return db.update("LoaiSach",values,"maLoai=?",new String[]{l.getMaLoai()+""});
+    public boolean insertLoaiSach(Loaisach ls){
+        //Tao contentvalues
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("THELOAI", ls.getTenLoai());
+        long check =  db.insert("LOAISACH", null,contentValues);
+        if (check == -1){
+            return false;
+        }else {
+            return true;
+        }
     }
     public int delete(int s){
         return db.delete("LOAISACH","MALOAI=?",new String[]{s+""});
@@ -46,13 +48,21 @@ public class loaisachDAO {
         }
         return list;
     }
+
     public List<Loaisach> getAll(){
         String sql="select * from LOAISACH";
         return getDaTa(sql);
     }
-    public Loaisach getID(String id){
-        String sql="select * from LOAISACH where MALOAI=?";
-        List<Loaisach> list=getDaTa(sql,id);
-        return list.get(0);
+    public Loaisach getID(int maLoai) {
+        String sql = "SELECT * FROM LOAISACH WHERE MALOAI=?";
+        List<Loaisach> list = getDaTa(sql, String.valueOf(maLoai));
+
+        if (!list.isEmpty()) {
+            return list.get(0);
+        } else {
+            // Trả về một giá trị Loaisach mặc định hoặc tạo một đối tượng mới tùy ý
+            return new Loaisach();
+        }
     }
+
 }

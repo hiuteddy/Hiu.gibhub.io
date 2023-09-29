@@ -8,6 +8,10 @@ public class Loaisach {
     public Loaisach() {
     }
 
+    public Loaisach(String tenLoai) {
+        this.tenLoai = tenLoai;
+    }
+
     public Loaisach(int maLoai, String tenLoai) {
         this.maLoai = maLoai;
         this.tenLoai = tenLoai;

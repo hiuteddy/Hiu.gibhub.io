@@ -24,7 +24,7 @@ public class sachDAO {
         values.put("TENSACH",s.getTenSach());
         values.put("GIATHUE",s.getGiaThue());
         values.put("THELOAI",s.getMaLoai());
-        return db.insert("Sach",null,values);
+        return db.insert("SACH",null,values);
     }
     public int upate(Sach s){
         ContentValues values=new ContentValues();
@@ -63,38 +63,13 @@ public class sachDAO {
         return list.get(0);
     }
 
-    public void adddd(){
 
     }
-//    public boolean addsach(Sach sach) {
-//        SQLiteDatabase database = mySQLite.getWritableDatabase();
-//        ContentValues values = new ContentValues();
-//        values.put("TENSACH", sach.getTenSach());
-//        values.put("GIATHUE", sach.getGiaThue());
-//        values.put("THELOAI", sach.getMaLoai());
-//        long check =  database.insert("SACH", null,values);
-//        if (check == -1){
-//            return  false;
-//        }else {
-//            return true;
-//        }
-    }
 
 
 
 
-//    public long updatesach(Sach sach) {
-//        SQLiteDatabase database = mySQLite.getWritableDatabase();
-//        ContentValues values = new ContentValues();
-//        values.put("TENSACH", sach.getTenSach());
-//        values.put("GIATHUE", sach.getGiathue());
-//        values.put("THELOAI", sach.getMasach());
-//        return database.update("SACH", values, "MASACH=?", new String[]{
-//                String.valueOf(sach.getMasach())
-//        });
-//
-//
-//    }
+
 
 
 

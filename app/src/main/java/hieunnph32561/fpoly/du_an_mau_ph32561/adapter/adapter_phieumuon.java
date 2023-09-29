@@ -38,16 +38,37 @@ public class adapter_phieumuon extends RecyclerView.Adapter<adapter_phieumuon.Vi
         return new Viewhodelpm(view);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull adapter_phieumuon.Viewhodelpm holder, int position) {
-        dao=new thanhvienDAO(context.getApplicationContext());
-        holder.txtmaphieu.setText(String.valueOf(list.get(position).getMapm()));
-        holder.txtthanhvien.setText(String.valueOf(list.get(position).getMatv()));
-        holder.txttensach.setText(String.valueOf(list.get(position).getMasach())); // Tên sách
-        holder.txttienthue.setText(String.valueOf(list.get(position).getTienthue()));
-        holder.txtngaythue.setText(list.get(position).getNgay()); // Ngày mượn
-        holder.txttrangthai.setText(String.valueOf(list.get(position).getTrasach()));
-    }
+    // Trong adapter_phieumuon.java
+
+
+
+        @Override
+        public void onBindViewHolder(@NonNull adapter_phieumuon.Viewhodelpm holder, int position) {
+            dao = new thanhvienDAO(context.getApplicationContext());
+            holder.txtmaphieu.setText(String.valueOf(list.get(position).getMapm()));
+            holder.txtthanhvien.setText(String.valueOf(list.get(position).getMatv()));
+            holder.txttensach.setText(String.valueOf(list.get(position).getMasach()));
+
+
+            // Lấy tên thành viên dựa trên mã thành viên
+        //    int maTV = list.get(position).getMatv();
+          //  String tenTV = phieumuonDAO.getTenTVByMaTV(maTV);
+         //   holder.txtthanhvien.setText(tenTV); // Sử dụng một TextView khác để hiển thị tên thành viên
+
+            // Lấy tên sách dựa trên mã sách
+          //  int maSach = list.get(position).getMasach();
+            //String tenSach = phieumuonDAO.getTenSachByMaSach(maSach);
+          //  holder.txttensach.setText(tenSach);
+
+            holder.txttienthue.setText(String.valueOf(list.get(position).getTienthue()));
+            holder.txtngaythue.setText(list.get(position).getNgay()); // Ngày mượn
+            holder.txttrangthai.setText(String.valueOf(list.get(position).getTrasach()));
+        }
+
+
+
+
+
 
 
 

@@ -31,10 +31,10 @@ public class adapter_loaisach extends RecyclerView.Adapter<adapter_loaisach.View
     private ArrayList<Loaisach> list;
     loaisachDAO dao;
 
-    public adapter_loaisach(Context context, ArrayList<Loaisach> list) {
+    public adapter_loaisach(Context context, ArrayList<Loaisach> list, loaisachDAO dao) {
         this.context = context;
         this.list = list;
-        dao=new loaisachDAO(context);
+        this.dao = dao;
     }
 
     @NonNull

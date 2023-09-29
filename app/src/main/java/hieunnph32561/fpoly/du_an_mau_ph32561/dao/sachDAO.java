@@ -62,6 +62,10 @@ public class sachDAO {
         List<Sach> list=getDaTa(sql,id);
         return list.get(0);
     }
+
+    public void adddd(){
+
+    }
 //    public boolean addsach(Sach sach) {
 //        SQLiteDatabase database = mySQLite.getWritableDatabase();
 //        ContentValues values = new ContentValues();

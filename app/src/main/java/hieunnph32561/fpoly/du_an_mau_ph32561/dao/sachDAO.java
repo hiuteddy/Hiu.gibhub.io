@@ -13,58 +13,84 @@ import hieunnph32561.fpoly.du_an_mau_ph32561.model.Sach;
 
 public class sachDAO {
 
-    private Dbhelper mySQLite;
-    private SQLiteDatabase db;
-    public sachDAO(Context context){
-        mySQLite=new Dbhelper(context);
-        db=mySQLite.getWritableDatabase();
+    private Dbhelper dBhelper;
+
+    public sachDAO(Context context) {
+        dBhelper = new Dbhelper(context);
     }
-    public long insert(Sach s){
+        public long insert(Sach s){
+        SQLiteDatabase database=dBhelper.getWritableDatabase();
         ContentValues values=new ContentValues();
         values.put("TENSACH",s.getTenSach());
         values.put("GIATHUE",s.getGiaThue());
         values.put("THELOAI",s.getMaLoai());
-        return db.insert("SACH",null,values);
+        return database.insert("SACH",null,values);
     }
-    public int upate(Sach s){
-        ContentValues values=new ContentValues();
-        values.put("tenSach",s.getTenSach());
-        values.put("giaThue",s.getGiaThue());
-        values.put("maLoai",s.getMaLoai());
-        return db.update("Sach",values,"maSach=?",new String[]{s.getMaSach()+""});
+    public int upate(Sach s) {
+        SQLiteDatabase database = dBhelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("TENSACH", s.getTenSach());
+        values.put("GIATHUE", s.getGiaThue());
+        values.put("THELOAI", s.getMaLoai());
+        return database.update("SACH", values, "MASACH=?", new String[]{s.getMaSach() + ""});
     }
-    public int delete(int s){
-        return db.delete("SACH","MASACH=?",new String[]{s+""});
+    public long delete(int mssp){
+        SQLiteDatabase database=dBhelper.getWritableDatabase();
+        long check=database.delete("SACH","MASACH=?",new String[]{
+                String.valueOf(mssp)
+        });
+        return  check;
     }
-    public List<Sach> getDaTa(String sql, String...selectionArgs){
-        List<Sach> list=new ArrayList<>();
-        Cursor c=db.rawQuery(sql,selectionArgs);
-        if (c.getCount() > 0) {
-            c.moveToNext();
-            while (!c.isAfterLast()) {
-                int a = c.getInt(0);
-                String b = c.getString(1);
-                int cc = c.getInt(2);
-                int d = c.getInt(3);
-                list.add(new Sach(a,b,cc,d));
-                c.moveToNext();
-            }
-            c.close();
+    // Phương thức này trả về danh sách tất cả sách trong bảng SACH từ cơ sở dữ liệu
+    public ArrayList<Sach> getALLSACH(String sql, String... selectionArgs) {
+        ArrayList<Sach> list = new ArrayList<>();
+
+        // Mở cơ sở dữ liệu để đọc
+        SQLiteDatabase database = dBhelper.getReadableDatabase();
+
+        // Thực hiện truy vấn SQL để lấy dữ liệu từ bảng SACH
+        Cursor cursor = database.rawQuery("SELECT * FROM SACH", null);
+
+        // Duyệt qua dữ liệu trả về từ truy vấn và tạo đối tượng Sach tương ứng
+        while (cursor.moveToNext()) {
+            // Lấy giá trị của các cột trong bảng SACH
+            int maSach = cursor.getInt(0);
+            String tenSach = cursor.getString(1);
+            int giaThue = cursor.getInt(2);
+            int maLoai = cursor.getInt(3);
+
+            // Tạo đối tượng Sach từ dữ liệu trên
+            Sach sach = new Sach(maSach, tenSach, giaThue, maLoai);
+
+            // Thêm đối tượng Sach vào danh sách
+            list.add(sach);
         }
+
+        // Đóng con trỏ Cursor để giải phóng tài nguyên
+        cursor.close();
+
         return list;
     }
-    public ArrayList<Sach> getAll(){
-        String sql="select * from SACH";
-        return (ArrayList<Sach>) getDaTa(sql);
+
+    // Lấy danh sách tất cả sách từ cơ sở dữ liệu
+    public ArrayList<Sach> getAll() {
+        String sql = "SELECT * FROM SACH";
+        return (ArrayList<Sach>) getALLSACH(sql);
     }
-    public Sach getID(String id){
-        String sql="select * from SACH where MASACH=?";
-        List<Sach> list=getDaTa(sql,id);
+
+    // Lấy thông tin của một cuốn sách dựa trên mã sách (MASACH)
+    public Sach getID(String id) {
+        String sql = "SELECT * FROM SACH WHERE MASACH=?";
+
+        // Gọi hàm getALLSACH với tham số truyền vào là MASACH cần tìm
+        List<Sach> list = getALLSACH(sql, id);
+
+        // Lấy phần tử đầu tiên (nếu có) từ danh sách kết quả
         return list.get(0);
     }
 
 
-    }
+}
 
 
 

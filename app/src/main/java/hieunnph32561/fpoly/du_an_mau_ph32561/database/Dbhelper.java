@@ -26,7 +26,7 @@ public class Dbhelper extends SQLiteOpenHelper {
         // Tạo bảng THANHVIEN
 
         String createTABLEthanhvien = "CREATE TABLE THANHVIEN (" +
-                "MATV TEXT PRIMARY KEY, " +
+                "MATV TEXT PRIMARY KEY AUTOINCREMENT, " +
                 "HOTEN TEXT NOT NULL, " +
                 "NAMSINH INTEGER NOT NULL)";
         db.execSQL(createTABLEthanhvien);

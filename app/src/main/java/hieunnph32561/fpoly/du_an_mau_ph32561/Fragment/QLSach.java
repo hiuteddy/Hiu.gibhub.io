@@ -48,10 +48,19 @@ public class QLSach extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.framgment_ql_loaisach, container, false);
         rcvSach = view.findViewById(R.id.rclls);
+
+        loaiSachDAO = new loaisachDAO(getContext());
+        sachDAO = new sachDAO(getContext());
+
+
+        list = sachDAO.getAll();
+        sachAdapter = new adapter_sach(getContext(), list);
+        rcvSach.setAdapter(sachAdapter);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rcvSach.setLayoutManager(layoutManager);
-        sachDAO = new sachDAO(getContext());
-        loaiSachDAO = new loaisachDAO(getContext());
+
+
         list = new ArrayList<>();
         listLS = new ArrayList<>();
 
@@ -63,15 +72,10 @@ public class QLSach extends Fragment {
                 ThemSach();
             }
         });
-        loadData();
         return view;
     }
 
-    public void loadData(){
-        list = sachDAO.getAll();
-        sachAdapter = new adapter_sach(getContext(), list);
-        rcvSach.setAdapter(sachAdapter);
-    }
+
 
     public void ThemSach() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -110,7 +114,14 @@ public class QLSach extends Fragment {
                 long result = sachDAO.insert(sach);
                 if (result > 0) {
                     Toast.makeText(getContext(), "Thêm sách thành công", Toast.LENGTH_SHORT).show();
-                    loadData();
+
+                    //set lên rcl
+                    list = sachDAO.getAll();
+                    sachAdapter = new adapter_sach(getContext(), list);
+                    rcvSach.setAdapter(sachAdapter);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+                    rcvSach.setLayoutManager(layoutManager);
+
                     dialog.dismiss();
                 } else {
                     Toast.makeText(getContext(), "Thêm sách thất bại", Toast.LENGTH_SHORT).show();

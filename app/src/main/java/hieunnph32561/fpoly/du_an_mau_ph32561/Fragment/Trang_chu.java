@@ -70,6 +70,12 @@ public class Trang_chu extends AppCompatActivity {
                 if (item.getItemId() == R.id.doimatkhau) {
                     fragment = new Doimatkhau();
                 }
+                if(item.getItemId()==R.id.doanhthu){
+                    fragment=new DoanhThu();
+                }
+                if(item.getItemId()==R.id.topsach){
+                    fragment=new DoanhThu();
+                }
                 if(item.getItemId()==R.id.dangxuat){
                     Intent intent = new Intent(Trang_chu.this, Dang_Nhap.class);
                     startActivity(intent);

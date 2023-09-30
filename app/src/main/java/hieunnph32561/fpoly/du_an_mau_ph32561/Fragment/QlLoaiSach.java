@@ -39,15 +39,21 @@ public class QlLoaiSach extends Fragment {
     ArrayList<Loaisach> list;
     loaisachDAO loaiSachDAO;
     adapter_loaisach loaiSachAdapter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.framgment_ql_loaisach, container, false);
+
         rcvLoaiSach = view.findViewById(R.id.rclls);
+        loaiSachDAO = new loaisachDAO(getContext());
+        list = (ArrayList<Loaisach>) loaiSachDAO.getAll();
+
+        loaiSachAdapter = new adapter_loaisach(getContext(), list, loaiSachDAO);
+        rcvLoaiSach.setAdapter(loaiSachAdapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         rcvLoaiSach.setLayoutManager(gridLayoutManager);
-        loaiSachDAO = new loaisachDAO(getContext());
-        loadData();
+
 
         FloatingActionButton fabAddLoaiSach = view.findViewById(R.id.floatadls);
         fabAddLoaiSach.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +64,8 @@ public class QlLoaiSach extends Fragment {
         });
         return view;
     }
-    public  void ThemLoaiSach(){
+
+    public void ThemLoaiSach() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LayoutInflater layoutInflater = getLayoutInflater();
         View view = layoutInflater.inflate(R.layout.dialog_loaisach, null);
@@ -67,19 +74,25 @@ public class QlLoaiSach extends Fragment {
         dialog.show();
         EditText edtTenLS = view.findViewById(R.id.ed_tenloaisach);
         Button btnXacnhan = view.findViewById(R.id.btn_save_loaisach);
-        Button btnHuy =view.findViewById(R.id.btn_huy_loaisach);
+        Button btnHuy = view.findViewById(R.id.btn_huy_loaisach);
 
         btnXacnhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String tenls = edtTenLS.getText().toString();
                 Loaisach ls = new Loaisach(tenls);
-                if (edtTenLS.length() == 0){
+                if (edtTenLS.length() == 0) {
                     Toast.makeText(getContext(), "Vui lòng nhập thông tin", Toast.LENGTH_SHORT).show();
-                }else {
-                    if (loaiSachDAO.insertLoaiSach(ls)) {
+                } else {
+                    if (loaiSachDAO.insert(ls) > 0) {
                         Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
-                        loadData();
+                        list = (ArrayList<Loaisach>) loaiSachDAO.getAll();
+
+                        loaiSachAdapter = new adapter_loaisach(getContext(), list, loaiSachDAO);
+                        rcvLoaiSach.setAdapter(loaiSachAdapter);
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+                        rcvLoaiSach.setLayoutManager(gridLayoutManager);
+
                         dialog.dismiss();
                     } else {
                         Toast.makeText(getContext(), "Thêm thất bại", Toast.LENGTH_SHORT).show();
@@ -94,9 +107,5 @@ public class QlLoaiSach extends Fragment {
             }
         });
     }
-    public void loadData(){
-        list = (ArrayList<Loaisach>) loaiSachDAO.getAll();
-        loaiSachAdapter = new adapter_loaisach(getContext(),list, loaiSachDAO);
-        rcvLoaiSach.setAdapter(loaiSachAdapter);
-    }
+
 }

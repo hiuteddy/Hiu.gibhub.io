@@ -11,58 +11,74 @@ import java.util.List;
 
 import hieunnph32561.fpoly.du_an_mau_ph32561.database.Dbhelper;
 import hieunnph32561.fpoly.du_an_mau_ph32561.model.Loaisach;
+import hieunnph32561.fpoly.du_an_mau_ph32561.model.Phieumuon;
+import hieunnph32561.fpoly.du_an_mau_ph32561.model.Sach;
 
 public class loaisachDAO {
-    private Dbhelper mySQLite;
-    private SQLiteDatabase db;
-    public loaisachDAO(Context context){
-        mySQLite=new Dbhelper(context);
-        db=mySQLite.getWritableDatabase();
+    private Dbhelper dBhelper;
+
+    public loaisachDAO(Context context) {
+        dBhelper = new Dbhelper(context);
     }
-    public boolean insertLoaiSach(Loaisach ls){
-        //Tao contentvalues
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("THELOAI", ls.getTenLoai());
-        long check =  db.insert("LOAISACH", null,contentValues);
-        if (check == -1){
-            return false;
-        }else {
-            return true;
+
+
+
+    public long insert(Loaisach s){
+        SQLiteDatabase database=dBhelper.getWritableDatabase();
+        ContentValues values=new ContentValues();
+        values.put("THELOAI",s.getTenLoai());
+        return database.insert("LOAISACH",null,values);
+    }
+
+    public long delete(int mssp){
+        SQLiteDatabase database=dBhelper.getWritableDatabase();
+        long check=database.delete("LOAISACH","MALOAI=?",new String[]{
+                String.valueOf(mssp)
+        });
+        return  check;
+    }
+
+
+    public ArrayList<Loaisach> getALLSACH(String sql, String... selectionArgs) {
+        ArrayList<Loaisach> list = new ArrayList<>();
+        SQLiteDatabase database = dBhelper.getReadableDatabase();
+        // Thực hiện truy vấn SQL để lấy dữ liệu từ bảng LOAISACH
+        Cursor cursor = database.rawQuery("SELECT * FROM LOAISACH", null);
+
+        // Duyệt qua dữ liệu trả về từ truy vấn và tạo đối tượng Loaisach tương ứng
+        while (cursor.moveToNext()) {
+            // Lấy giá trị của cột MALOAI (cột 0)
+            int maloai = cursor.getInt(0);
+            // Lấy giá trị của cột TENLOAI (cột 1)
+            String tenloai = cursor.getString(1);
+
+            // Tạo đối tượng Loaisach từ dữ liệu trên
+            Loaisach ls = new Loaisach(maloai, tenloai);
+
+            // Thêm đối tượng Loaisach vào danh sách
+            list.add(ls);
         }
-    }
-    public int delete(int s){
-        return db.delete("LOAISACH","MALOAI=?",new String[]{s+""});
-    }
-    public List<Loaisach> getDaTa(String sql, String...selectionArgs){
-        List<Loaisach> list=new ArrayList<>();
-        Cursor c=db.rawQuery(sql,selectionArgs);
-        if (c.getCount() > 0) {
-            c.moveToFirst();
-            while (!c.isAfterLast()) {
-                int a = c.getInt(0);
-                String b = c.getString(1);
-                list.add(new Loaisach(a,b));
-                c.moveToNext();
-            }
-            c.close();
-        }
+        // Đóng con trỏ Cursor để giải phóng tài nguyên
+        cursor.close();
         return list;
     }
 
-    public List<Loaisach> getAll(){
-        String sql="select * from LOAISACH";
-        return getDaTa(sql);
+    // Lấy danh sách tất cả các loại sách từ cơ sở dữ liệu
+    public List<Loaisach> getAll() {
+        // Chuỗi SQL truy vấn để lấy tất cả dữ liệu từ bảng LOAISACH
+        String sql = "SELECT * FROM LOAISACH";
+        return getALLSACH(sql);
     }
-    public Loaisach getID(int maLoai) {
-        String sql = "SELECT * FROM LOAISACH WHERE MALOAI=?";
-        List<Loaisach> list = getDaTa(sql, String.valueOf(maLoai));
 
-        if (!list.isEmpty()) {
-            return list.get(0);
-        } else {
-            // Trả về một giá trị Loaisach mặc định hoặc tạo một đối tượng mới tùy ý
-            return new Loaisach();
-        }
+    // Lấy thông tin của một loại sách dựa trên mã loại
+    public Loaisach getID(String id) {
+        // Chuỗi SQL truy vấn để lấy dữ liệu của một loại sách dựa trên MALOAI
+        String sql = "SELECT * FROM LOAISACH WHERE MALOAI=?";
+        // Gọi hàm getALLSACH với tham số truyền vào là MALOAI cần tìm
+        List<Loaisach> list = getALLSACH(sql, id);
+        // Lấy phần tử đầu tiên (nếu có) từ danh sách kết quả
+        return list.get(0);
     }
+
 
 }

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:text="DOANH THU"
+            android:textStyle="italic"
+            android:textColor="#CC0505"
+            android:textSize="30dp" />
+
+        <TextView
+            android:id="@+id/txtngay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:layout_margin="5dp"
+            android:text="Từ ngày: " />
+
+        <EditText
+            android:id="@+id/editTextText"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/edittext_bg"
+            android:ems="10"
+            android:layout_margin="5dp"
+            android:hint="Nhập ngày bắt đầu: "
+            android:inputType="text" />
+
+        <TextView
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_margin="5dp"
+            android:text="Đến ngày:" />
+
+        <EditText
+            android:id="@+id/editTextText2"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/edittext_bg"
+            android:ems="10"
+            android:inputType="text"
+            android:hint="Name" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@color/material_dynamic_neutral_variant80"
+            android:layout_gravity="center"
+            android:text="DoanhThu$"
+            />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:background="@drawable/edit_text"
+            android:layout_width="150dp"
+            android:layout_gravity="center"
+            android:layout_height="40dp"
+         />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

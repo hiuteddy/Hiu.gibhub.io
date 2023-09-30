@@ -5,8 +5,6 @@ public class Loaisach {
     private int maLoai;
     private String tenLoai;
 
-    public Loaisach() {
-    }
 
     public Loaisach(String tenLoai) {
         this.tenLoai = tenLoai;

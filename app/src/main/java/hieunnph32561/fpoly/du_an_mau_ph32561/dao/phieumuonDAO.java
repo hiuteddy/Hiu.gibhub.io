@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import hieunnph32561.fpoly.du_an_mau_ph32561.database.Dbhelper;
 import hieunnph32561.fpoly.du_an_mau_ph32561.model.Loaisach;
 import hieunnph32561.fpoly.du_an_mau_ph32561.model.Phieumuon;
+import hieunnph32561.fpoly.du_an_mau_ph32561.model.Sach;
 
 public class phieumuonDAO {
     private Dbhelper dbhelper;
@@ -18,8 +19,6 @@ public class phieumuonDAO {
     public phieumuonDAO(Context context) {
         dbhelper = new Dbhelper(context);
     }
-
-
 
     public ArrayList<Phieumuon> getDSPhieuMuon() {
         ArrayList<Phieumuon> list = new ArrayList<>();
@@ -41,15 +40,10 @@ public class phieumuonDAO {
         }
         return list;
     }
-    public long delete(int mssp){
-        SQLiteDatabase database=dbhelper.getWritableDatabase();
-        long check=database.delete("PHIEUMUON","MAPM=?",new String[]{
-                String.valueOf(mssp)
-        });
-        return  check;
-    }
 
-    public boolean themPhieuMuon(Phieumuon phieuMuon){
+
+
+    public long insert(Phieumuon phieuMuon){
         SQLiteDatabase sqLiteDatabase=dbhelper.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
         contentValues.put("MATV",phieuMuon.getMatv());
@@ -59,11 +53,27 @@ public class phieumuonDAO {
         contentValues.put("TRASACH",phieuMuon.getTrasach());
         contentValues.put("TIENTHUE",phieuMuon.getTienthue());
 
-        long check=sqLiteDatabase.insert("PHIEUMUON",null,contentValues);
-        if(check==-1){
-            return false;
-        }
-        return true;
+        return sqLiteDatabase.insert("PIEUMUON",null,contentValues);
+    }
+
+        public long upate(Phieumuon phieuMuon){
+            SQLiteDatabase sqLiteDatabase=dbhelper.getWritableDatabase();
+            ContentValues contentValues=new ContentValues();
+            contentValues.put("MATV",phieuMuon.getMatv());
+            contentValues.put("MATT",phieuMuon.getMatt());
+            contentValues.put("MASACH",phieuMuon.getMasach());
+            contentValues.put("NGAY",phieuMuon.getNgay());
+            contentValues.put("TRASACH",phieuMuon.getTrasach());
+            contentValues.put("TIENTHUE",phieuMuon.getTienthue());
+
+            return sqLiteDatabase.update("PIEUMUON", null,"MAPM=?", new String[]{phieuMuon.getMapm() + ""});
+    }
+    public long delete(int mpm){
+        SQLiteDatabase database=dbhelper.getWritableDatabase();
+        long check=database.delete("PIEUMUON","MAPM=?",new String[]{
+                String.valueOf(mpm)
+        });
+        return  check;
     }
 
 }

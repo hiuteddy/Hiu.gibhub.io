@@ -80,24 +80,23 @@ public class adapter_loaisach extends RecyclerView.Adapter<adapter_loaisach.View
         });
 
     }
-        @Override
-        public int getItemCount () {
-            return list.size();
-        }
-
-        public static class ViewHolder extends RecyclerView.ViewHolder {
-            TextView maloai, tenloai, giasach, Masach, theloai;
-            ImageView txtdelete;
-
-            public ViewHolder(@NonNull View itemView) {
-                super(itemView);
-                maloai = itemView.findViewById(R.id.txtmaloai); // Đảm bảo id là đúng
-                tenloai = itemView.findViewById(R.id.txttenloai); // Đảm bảo id là đúng
-                giasach = itemView.findViewById(R.id.txtgiasach); // Đảm bảo id là đúng
-                Masach = itemView.findViewById(R.id.txtmasach); // Đảm bảo id là đúng
-                theloai = itemView.findViewById(R.id.txttheloai); // Đảm bảo id là đúng
-                txtdelete = itemView.findViewById(R.id.imageViewdl); // Đảm bảo id là đúng
-            }
-        }
+    @Override
+    public int getItemCount () {
+        return list.size();
     }
 
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView maloai, tenloai, giasach, Masach, theloai;
+        ImageView txtdelete;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            maloai = itemView.findViewById(R.id.txtmaloai); // Đảm bảo id là đúng
+            tenloai = itemView.findViewById(R.id.txttenloai); // Đảm bảo id là đúng
+            giasach = itemView.findViewById(R.id.txtgiasach); // Đảm bảo id là đúng
+            Masach = itemView.findViewById(R.id.txtmasach); // Đảm bảo id là đúng
+            theloai = itemView.findViewById(R.id.txttheloai); // Đảm bảo id là đúng
+            txtdelete = itemView.findViewById(R.id.imageViewdl); // Đảm bảo id là đúng
+        }
+    }
+}

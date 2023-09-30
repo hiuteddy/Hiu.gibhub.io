@@ -80,5 +80,4 @@ public class loaisachDAO {
         return list.get(0);
     }
 
-
 }

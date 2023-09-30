@@ -50,33 +50,42 @@ public class adapter_phieumuon extends RecyclerView.Adapter<adapter_phieumuon.Vi
         return new Viewhodelpm(view);
     }
 
+    // Trong adapter_phieumuon.java
+
 
     @Override
     public void onBindViewHolder(@NonNull adapter_phieumuon.Viewhodelpm holder, int position) {
         // Tạo đối tượng thanhvienDAO để tương tác với bảng thành viên trong cơ sở dữ liệu
-        phieumuonDAO = new phieumuonDAO(context.getApplicationContext());
         dao = new thanhvienDAO(context.getApplicationContext());
+
+// Tạo đối tượng sachDAO để tương tác với bảng sách trong cơ sở dữ liệu
         daoo = new sachDAO(context.getApplicationContext());
 
-        // Lấy đối tượng Phieumuon từ danh sách tại vị trí (position) cụ thể
+// Lấy đối tượng Phieumuon từ danh sách tại vị trí (position) cụ thể
         Phieumuon phieumuon = list.get(position);
 
-        // Lấy thông tin thành viên (thanhvien) dựa trên mã thành viên (MATV) của phiếu mượn
+// Lấy thông tin thành viên (thanhvien) dựa trên mã thành viên (MATV) của phiếu mượn
         thanhvien = dao.getID(phieumuon.getMatv());
+
+// Lấy thông tin sách (sach) dựa trên mã sách (MASACH) của phiếu mượn
         sach = daoo.getID(String.valueOf(phieumuon.getMasach()));
 
-        holder.txtmaphieu.setText(String.valueOf(list.get(position).getMapm()));
+// Hiển thị các thông tin về phiếu mượn, thành viên và sách lên giao diện
+        holder.txtmaphieu.setText(String.valueOf(list.get(position).getMapm())); // Hiển thị mã phiếu mượn
         holder.txtthanhvien.setText(String.valueOf(thanhvien.getHoten())); // Hiển thị tên của thành viên
         holder.txttensach.setText(String.valueOf(sach.getTenSach())); // Hiển thị tên sách
+
         holder.txttienthue.setText(String.valueOf(list.get(position).getTienthue()));
-        holder.txtngaythue.setText(list.get(position).getNgay());
+        holder.txtngaythue.setText(list.get(position).getNgay()); // Ngày mượn
         int trangthai = list.get(position).getTrasach();
-        // Kiểm tra và hiển thị trạng thái dựa trên giá trị trangthai: 1 - đã trả, 0 - chưa trả
+
+// Kiểm tra và hiển thị trạng thái dựa trên giá trị trangthai: 1 - đã trả, 0 - chưa trả
         if (trangthai == 1) {
-            holder.txttrangthai.setText("Đã trả");
+            holder.txttrangthai.setText("Đã trả"); // Hiển thị "Đã trả" nếu trạng thái là 1
         } else {
             holder.txttrangthai.setText("Chưa trả");
         }
+
 
         holder.imvdl.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +114,6 @@ public class adapter_phieumuon extends RecyclerView.Adapter<adapter_phieumuon.Vi
                         });
                 Dialog dialog = builder.create();
                 dialog.show();
-
             }
         });
     }

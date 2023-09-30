@@ -53,10 +53,10 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
 // Lấy thông tin thể loại sách từ bảng Loaisach dựa trên khóa ngoại maLoai
         loaisach = daoo.getID(String.valueOf(sach.getMaLoai()));
 
-        holder.Masach.setText("" + sach.getMaSach());
-        holder.tensach.setText(sach.getTenSach());
-        holder.theloai.setText("" + loaisach.getTenLoai()); // Lấy tên thể loại sách từ đối tượng Loaisach
-        holder.giasach.setText("" + sach.getGiaThue());
+        holder.Masach.setText("Mã sách: " + sach.getMaSach());
+        holder.tensach.setText("Tên sách: " + sach.getTenSach());
+        holder.theloai.setText("Loại sách: " + loaisach.getTenLoai()); // Lấy tên thể loại sách từ đối tượng Loaisach
+        holder.giasach.setText("Giá thuê: " + sach.getGiaThue());
 
 
         holder.txtdelete.setOnClickListener(new View.OnClickListener() {
@@ -127,5 +127,3 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
     }
 
 }
-
-

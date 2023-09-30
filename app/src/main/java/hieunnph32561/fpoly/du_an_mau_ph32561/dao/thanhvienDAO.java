@@ -46,14 +46,7 @@ public class thanhvienDAO {
         return database.insert("THANHVIEN",null,values);
     }
 
-    public long addsp(Thanhvien tv){
-        SQLiteDatabase  database=dBhelper.getWritableDatabase();
-        ContentValues values= new ContentValues();
-        values.put("MATV",tv.getMatv());
-        values.put("HOTEN",tv.getHoten());
-        values.put("NAMSINH",tv.getNamsinh());
-        return database.insert("THANHVIEN",null,values);
-    }
+
 
 
     public long udt(Thanhvien tv){

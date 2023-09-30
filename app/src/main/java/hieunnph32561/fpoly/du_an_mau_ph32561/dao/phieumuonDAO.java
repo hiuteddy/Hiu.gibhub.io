@@ -66,14 +66,13 @@ public class phieumuonDAO {
             contentValues.put("TRASACH",phieuMuon.getTrasach());
             contentValues.put("TIENTHUE",phieuMuon.getTienthue());
 
-            return sqLiteDatabase.update("PIEUMUON", null,"MAPM=?", new String[]{phieuMuon.getMapm() + ""});
+            return sqLiteDatabase.update("PHIEUMUON", null,"MAPM=?", new String[]{phieuMuon.getMapm() + ""});
     }
-    public long delete(int mpm){
-        SQLiteDatabase database=dbhelper.getWritableDatabase();
-        long check=database.delete("PIEUMUON","MAPM=?",new String[]{
-                String.valueOf(mpm)
-        });
-        return  check;
+    public long delete(String mpm) {
+        SQLiteDatabase database = dbhelper.getWritableDatabase();
+        long check = database.delete("PHIEUMUON", "MAPM=?", new String[]{mpm});
+        return check;
     }
+
 
 }

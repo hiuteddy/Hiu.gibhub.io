@@ -66,17 +66,13 @@ public class adapter_phieumuon extends RecyclerView.Adapter<adapter_phieumuon.Vi
 
 // Lấy thông tin thành viên (thanhvien) dựa trên mã thành viên (MATV) của phiếu mượn
         thanhvien = dao.getID(phieumuon.getMatv());
-
-// Lấy thông tin sách (sach) dựa trên mã sách (MASACH) của phiếu mượn
         sach = daoo.getID(String.valueOf(phieumuon.getMasach()));
 
-// Hiển thị các thông tin về phiếu mượn, thành viên và sách lên giao diện
-        holder.txtmaphieu.setText(String.valueOf(list.get(position).getMapm())); // Hiển thị mã phiếu mượn
-        holder.txtthanhvien.setText(String.valueOf(thanhvien.getHoten())); // Hiển thị tên của thành viên
-        holder.txttensach.setText(String.valueOf(sach.getTenSach())); // Hiển thị tên sách
-
+        holder.txtmaphieu.setText(String.valueOf(list.get(position).getMapm()));
+        holder.txtthanhvien.setText(String.valueOf(thanhvien.getHoten()));
+        holder.txttensach.setText(String.valueOf(sach.getTenSach()));
         holder.txttienthue.setText(String.valueOf(list.get(position).getTienthue()));
-        holder.txtngaythue.setText(list.get(position).getNgay()); // Ngày mượn
+        holder.txtngaythue.setText(list.get(position).getNgay());
         int trangthai = list.get(position).getTrasach();
 
 // Kiểm tra và hiển thị trạng thái dựa trên giá trị trangthai: 1 - đã trả, 0 - chưa trả
@@ -96,7 +92,7 @@ public class adapter_phieumuon extends RecyclerView.Adapter<adapter_phieumuon.Vi
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if (phieumuonDAO.delete(phieumuon.getMapm()) > 0) {
+                                if (phieumuonDAO.delete(String.valueOf(phieumuon.getMapm())) > 0) {
                                     Toast.makeText(context, "Xóa thành công", Toast.LENGTH_SHORT).show();
                                     list.clear();
                                     list.addAll(phieumuonDAO.getDSPhieuMuon());

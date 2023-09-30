@@ -29,7 +29,7 @@ public class phieumuonDAO {
             cursor.moveToFirst();
             do{
                 list.add(new Phieumuon(cursor.getInt(0)
-                        ,cursor.getInt(1),
+                        ,cursor.getString(1),
                         cursor.getString(2),
                         cursor.getInt(3),
                         cursor.getString(4),
@@ -43,34 +43,9 @@ public class phieumuonDAO {
     }
 
 
-//    public String getTenSachByMaSach(int maSach) {
-//        SQLiteDatabase sqLiteDatabase = dbhelper.getReadableDatabase();
-//        Cursor cursor = sqLiteDatabase.rawQuery("SELECT TENSACH FROM SACH WHERE MASACH = ?", new String[] { String.valueOf(maSach) });
-//
-//        String tenSach = null;
-//        if (cursor.moveToFirst()) {
-//            tenSach = cursor.getString(0);
-//        }
-//
-//        cursor.close();
-//        return tenSach;
-//    }
-//    public String getTenTVByMaTV(int maTV) {
-//        SQLiteDatabase sqLiteDatabase = dbhelper.getReadableDatabase();
-//        Cursor cursor = sqLiteDatabase.rawQuery("SELECT HOTEN FROM THANHVIEN WHERE MATV = ?", new String[] { String.valueOf(maTV) });
-//
-//        String tenTV = null;
-//        if (cursor.moveToFirst()) {
-//            tenTV = cursor.getString(0);
-//        }
-//
-//        cursor.close();
-//        return tenTV;
-//    }
     public boolean themPhieuMuon(Phieumuon phieuMuon){
         SQLiteDatabase sqLiteDatabase=dbhelper.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
-//        contentValues.put("MAPM",phieuMuon.getMaPm());
         contentValues.put("MATV",phieuMuon.getMatv());
         contentValues.put("MATT",phieuMuon.getMatt());
         contentValues.put("MASACH",phieuMuon.getMasach());

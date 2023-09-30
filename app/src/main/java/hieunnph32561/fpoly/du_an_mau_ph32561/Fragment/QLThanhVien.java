@@ -27,8 +27,8 @@ public class QLThanhVien extends Fragment {
 
     private RecyclerView recyclerView;
     private ArrayList<Thanhvien> list;
-      adapter_thanhvien adapterThanhvien;
-     thanhvienDAO spdao;
+    adapter_thanhvien adapterThanhvien;
+    thanhvienDAO spdao;
     private Context context;
 
     FloatingActionButton floatingActionButton;
@@ -41,14 +41,14 @@ public class QLThanhVien extends Fragment {
         recyclerView = view.findViewById(R.id.rcltv);
         context = getContext();
         spdao = new thanhvienDAO(context);
-        list = spdao.getALLSP();
+        list = spdao.getAll();
         adapterThanhvien = new adapter_thanhvien(context, list);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapterThanhvien);
 
-        floatingActionButton=view.findViewById(R.id.floataddtv);
+        floatingActionButton = view.findViewById(R.id.floataddtv);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -2,7 +2,7 @@ package hieunnph32561.fpoly.du_an_mau_ph32561.model;
 public class Phieumuon {
     private int mapm;
     private String matt;
-    private int matv;
+    private String matv;
     private int masach;
     private String ngay;
     private int trasach;
@@ -10,7 +10,7 @@ public class Phieumuon {
 
 
 
-    public Phieumuon(int mapm, int matv, String matt, int masach, String ngay, int trasach, int tienthue) {
+    public Phieumuon(int mapm, String matv, String matt, int masach, String ngay, int trasach, int tienthue) {
         this.mapm = mapm;
         this.matt = matt;
         this.matv = matv;
@@ -20,13 +20,6 @@ public class Phieumuon {
         this.tienthue = tienthue;
 
     }
-
-
-
-
-
-
-
 
     public int getMapm() {
         return mapm;
@@ -44,11 +37,11 @@ public class Phieumuon {
         this.matt = matt;
     }
 
-    public int getMatv() {
+    public String getMatv() {
         return matv;
     }
 
-    public void setMatv(int matv) {
+    public void setMatv(String matv) {
         this.matv = matv;
     }
 
@@ -83,8 +76,4 @@ public class Phieumuon {
     public void setTienthue(int tienthue) {
         this.tienthue = tienthue;
     }
-
-
-
-
 }

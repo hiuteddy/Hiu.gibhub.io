@@ -1,21 +1,22 @@
 package hieunnph32561.fpoly.du_an_mau_ph32561.model;
 
 public class Thanhvien {
-    private int matv;
+    private String matv;
     private String hoten;
     private String namsinh;
 
-    public Thanhvien(int matv, String hoten, String namsinh) {
+    public Thanhvien(String matv, String hoten, String namsinh) {
         this.matv = matv;
         this.hoten = hoten;
         this.namsinh = namsinh;
     }
 
-    public int getMatv() {
+
+    public String getMatv() {
         return matv;
     }
 
-    public void setMatv(int matv) {
+    public void setMatv(String matv) {
         this.matv = matv;
     }
 

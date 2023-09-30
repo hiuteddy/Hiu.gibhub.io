@@ -22,14 +22,14 @@ public class thanhvienDAO {
 
 
 
-    public ArrayList<Thanhvien> getALLSP() {
+    public ArrayList<Thanhvien> getALLTV(String sql, String... selectionArgs) {
         ArrayList<Thanhvien> list = new ArrayList<>();
         SQLiteDatabase database = dBhelper.getReadableDatabase(); // thêm this.dBhelper
         Cursor cursor = database.rawQuery("SELECT * FROM THANHVIEN", null);
 
         while (cursor.moveToNext()) {
             Thanhvien tv = new Thanhvien(
-                    cursor.getInt(0),
+                    cursor.getString(0),
                     cursor.getString(1),
                     cursor.getString(2));
             list.add(tv);
@@ -74,5 +74,15 @@ public class thanhvienDAO {
                 String.valueOf(mtv)
         });
         return  check;
+    }
+    public ArrayList<Thanhvien> getAll() {
+        String sql = "select * from THANHVIEN";
+        return (ArrayList<Thanhvien>) getALLTV(sql);
+    }
+
+    public Thanhvien getID(String id) {
+        String sql = "select * from THANHVIEN where MATV=?";
+        List<Thanhvien> list = getALLTV(sql, id);
+        return list.get(0);
     }
 }

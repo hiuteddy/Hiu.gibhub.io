@@ -49,7 +49,6 @@ public class loaisachDAO {
         while (cursor.moveToNext()) {
             // Lấy giá trị của cột MALOAI (cột 0)
             int maloai = cursor.getInt(0);
-            // Lấy giá trị của cột TENLOAI (cột 1)
             String tenloai = cursor.getString(1);
 
             // Tạo đối tượng Loaisach từ dữ liệu trên

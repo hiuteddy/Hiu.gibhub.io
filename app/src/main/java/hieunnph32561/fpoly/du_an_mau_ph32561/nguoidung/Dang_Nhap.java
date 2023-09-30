@@ -17,18 +17,20 @@ public class Dang_Nhap extends AppCompatActivity {
     EditText edtuser, edtpass;
     Button btnsig;
     CheckBox checkBox;
-    thuthuDAO dao = new thuthuDAO(this);
+    thuthuDAO dao;
     SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dang_nhap);
+
         edtuser = findViewById(R.id.editUsername);
         edtpass = findViewById(R.id.editPassword);
         btnsig = findViewById(R.id.btnLogin);
         checkBox = findViewById(R.id.checkBox);
 
+        dao = new thuthuDAO(this); // Khởi tạo dao ở đây
         sharedPreferences = getSharedPreferences("THONGTIN", MODE_PRIVATE);
 
         String savedUsername = sharedPreferences.getString("Mã tt", "");
@@ -51,10 +53,6 @@ public class Dang_Nhap extends AppCompatActivity {
             editor.apply();
 
             if (loggedIn) {
-                sharedPreferences=getSharedPreferences("abc",MODE_PRIVATE);
-                sharedPreferences.edit();
-                editor.putString("MATT",username);
-                editor.commit();
                 Intent intent = new Intent(Dang_Nhap.this, Trang_chu.class);
                 startActivity(intent);
 

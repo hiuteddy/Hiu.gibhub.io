@@ -15,17 +15,22 @@ public class sachDAO {
 
     private Dbhelper dBhelper;
 
+    // Constructor để khởi tạo trợ giúp cơ sở dữ liệu
     public sachDAO(Context context) {
         dBhelper = new Dbhelper(context);
     }
-    public long insert(Sach s){
-        SQLiteDatabase database=dBhelper.getWritableDatabase();
-        ContentValues values=new ContentValues();
-        values.put("TENSACH",s.getTenSach());
-        values.put("GIATHUE",s.getGiaThue());
-        values.put("THELOAI",s.getMaLoai());
-        return database.insert("SACH",null,values);
+
+    // Phương thức để chèn một bản ghi sách vào cơ sở dữ liệu
+    public long insert(Sach s) {
+        SQLiteDatabase database = dBhelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("TENSACH", s.getTenSach());
+        values.put("GIATHUE", s.getGiaThue());
+        values.put("THELOAI", s.getMaLoai());
+        return database.insert("SACH", null, values); // Trả về ID của hàng được chèn
     }
+
+    // Phương thức để cập nhật một bản ghi sách trong cơ sở dữ liệu
     public int upate(Sach s) {
         SQLiteDatabase database = dBhelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -34,13 +39,15 @@ public class sachDAO {
         values.put("THELOAI", s.getMaLoai());
         return database.update("SACH", values, "MASACH=?", new String[]{s.getMaSach() + ""});
     }
-    public long delete(int mssp){
-        SQLiteDatabase database=dBhelper.getWritableDatabase();
-        long check=database.delete("SACH","MASACH=?",new String[]{
-                String.valueOf(mssp)
-        });
-        return  check;
+
+    // Phương thức để xóa một bản ghi sách khỏi cơ sở dữ liệu
+    public long delete(int mssp) {
+        SQLiteDatabase database = dBhelper.getWritableDatabase();
+        long check = database.delete("SACH", "MASACH=?", new String[]{String.valueOf(mssp)});
+        return check; // Trả về số hàng bị xóa
     }
+
+    // Phương thức để lấy danh sách tất cả sách từ cơ sở dữ liệu
     public ArrayList<Sach> getALLSACH(String sql, String... selectionArgs) {
         ArrayList<Sach> list = new ArrayList<>();
         SQLiteDatabase database = dBhelper.getReadableDatabase();
@@ -52,22 +59,22 @@ public class sachDAO {
                     cursor.getString(1),
                     cursor.getInt(2),
                     cursor.getInt(3));
-            // login.setTendangnhap(cursor.getString(0));
+            // Thêm sách vào danh sách
             list.add(login);
         }
-        return list;
+        return list; // Trả về danh sách sách
     }
 
+    // Phương thức để lấy danh sách tất cả sách từ cơ sở dữ liệu (được đơn giản hóa)
     public ArrayList<Sach> getAll() {
-        String sql = "select * from SACH";
-        return (ArrayList<Sach>) getALLSACH(sql);
+        String sql = "SELECT * FROM SACH";
+        return (ArrayList<Sach>) getALLSACH(sql); // Gọi getALLSACH với một truy vấn SQL đã được định nghĩa trước
     }
 
+    // Phương thức để lấy một cuốn sách cụ thể bằng ID từ cơ sở dữ liệu
     public Sach getID(String id) {
-        String sql = "select * from SACH where MASACH=?";
+        String sql = "SELECT * FROM SACH WHERE MASACH=?";
         List<Sach> list = getALLSACH(sql, id);
-        return list.get(0);
+        return list.get(0); // Trả về cuốn sách đầu tiên trong danh sách (nên chỉ có một cuốn)
     }
-
-
 }

@@ -84,8 +84,15 @@ public class QlLoaiSach extends Fragment {
                     Toast.makeText(getContext(), "Vui lòng nhập thông tin", Toast.LENGTH_SHORT).show();
                 }else {
                     if( loaiSachDAO.insert(ls)>0) {
+                        loaiSachDAO = new loaisachDAO(getContext());
+                        list = (ArrayList<Loaisach>) loaiSachDAO.getAll();
+                        loaiSachAdapter = new adapter_loaisach(getContext(),list, loaiSachDAO);
+                        rcvLoaiSach.setAdapter(loaiSachAdapter);
+
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+                        rcvLoaiSach.setLayoutManager(gridLayoutManager);
+
                         Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
-                        // loadData();
                         dialog.dismiss();
                     } else {
                         Toast.makeText(getContext(), "Thêm thất bại", Toast.LENGTH_SHORT).show();

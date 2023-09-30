@@ -74,7 +74,7 @@ public class Trang_chu extends AppCompatActivity {
                     fragment=new DoanhThu();
                 }
                 if(item.getItemId()==R.id.topsach){
-                    fragment=new DoanhThu();
+                    fragment=new Top10();
                 }
                 if(item.getItemId()==R.id.dangxuat){
                     Intent intent = new Intent(Trang_chu.this, Dang_Nhap.class);

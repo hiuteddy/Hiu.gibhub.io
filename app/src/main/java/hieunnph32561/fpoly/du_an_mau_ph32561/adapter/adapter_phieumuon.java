@@ -34,8 +34,9 @@ public class adapter_phieumuon extends RecyclerView.Adapter<adapter_phieumuon.Vi
     thanhvienDAO dao;
     sachDAO daoo;
 
-    Thanhvien thanhvien;
     Sach sach;
+    Thanhvien thanhvien;
+
 
     public adapter_phieumuon(Context context, ArrayList<Phieumuon> list, hieunnph32561.fpoly.du_an_mau_ph32561.dao.phieumuonDAO phieumuonDAO) {
         this.context = context;
@@ -64,14 +65,15 @@ public class adapter_phieumuon extends RecyclerView.Adapter<adapter_phieumuon.Vi
 // Lấy đối tượng Phieumuon từ danh sách tại vị trí (position) cụ thể
         Phieumuon phieumuon = list.get(position);
 
+
 // Lấy thông tin thành viên (thanhvien) dựa trên mã thành viên (MATV) của phiếu mượn
-        thanhvien = dao.getID(phieumuon.getMatv());
+        thanhvien = dao.getID(String.valueOf(phieumuon.getMatv()));
         sach = daoo.getID(String.valueOf(phieumuon.getMasach()));
 
         holder.txtmaphieu.setText(String.valueOf(list.get(position).getMapm()));
         holder.txtthanhvien.setText(String.valueOf(thanhvien.getHoten()));
         holder.txttensach.setText(String.valueOf(sach.getTenSach()));
-        holder.txttienthue.setText(String.valueOf(list.get(position).getTienthue()));
+        holder.txttienthue.setText(String.valueOf(sach.getGiaThue()));
         holder.txtngaythue.setText(list.get(position).getNgay());
         int trangthai = list.get(position).getTrasach();
 

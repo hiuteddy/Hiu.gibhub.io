@@ -42,25 +42,26 @@ public class loaisachDAO {
     public ArrayList<Loaisach> getALLSACH(String sql, String... selectionArgs) {
         ArrayList<Loaisach> list = new ArrayList<>();
         SQLiteDatabase database = dBhelper.getReadableDatabase();
+
         // Thực hiện truy vấn SQL để lấy dữ liệu từ bảng LOAISACH
-        Cursor cursor = database.rawQuery("SELECT * FROM LOAISACH", null);
+        Cursor cursor = database.rawQuery(sql, selectionArgs);
 
         // Duyệt qua dữ liệu trả về từ truy vấn và tạo đối tượng Loaisach tương ứng
         while (cursor.moveToNext()) {
-            // Lấy giá trị của cột MALOAI (cột 0)
-            int maloai = cursor.getInt(0);
-            String tenloai = cursor.getString(1);
-
-            // Tạo đối tượng Loaisach từ dữ liệu trên
-            Loaisach ls = new Loaisach(maloai, tenloai);
-
+            @SuppressLint("Range") Loaisach ls = new Loaisach(
+                    cursor.getInt(cursor.getColumnIndex("MALOAI")), // Lấy cột MALOAI
+                    cursor.getString(cursor.getColumnIndex("THELOAI")) // Lấy cột THELOAI
+            );
             // Thêm đối tượng Loaisach vào danh sách
             list.add(ls);
         }
+
         // Đóng con trỏ Cursor để giải phóng tài nguyên
         cursor.close();
+
         return list;
     }
+
 
     // Lấy danh sách tất cả các loại sách từ cơ sở dữ liệu
     public List<Loaisach> getAll() {
@@ -70,13 +71,18 @@ public class loaisachDAO {
     }
 
     // Lấy thông tin của một loại sách dựa trên mã loại
-    public Loaisach getID(String id) {
-        // Chuỗi SQL truy vấn để lấy dữ liệu của một loại sách dựa trên MALOAI
-        String sql = "SELECT * FROM LOAISACH WHERE MALOAI=?";
-        // Gọi hàm getALLSACH với tham số truyền vào là MALOAI cần tìm
+    public Loaisach getID(String id){
+        String sql = "select * from LOAISACH where MALOAI=?";
         List<Loaisach> list = getALLSACH(sql, id);
-        // Lấy phần tử đầu tiên (nếu có) từ danh sách kết quả
-        return list.get(0);
+
+        if (!list.isEmpty()) {
+            return list.get(0);
+        }
+        else {
+            // Trả về một giá trị LoaiSach mặc định hoặc tạo một đối tượng mới tùy ý
+            return new Loaisach();
+        }
     }
+
 
 }

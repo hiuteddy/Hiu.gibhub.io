@@ -1,5 +1,6 @@
 package hieunnph32561.fpoly.du_an_mau_ph32561.dao;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hieunnph32561.fpoly.du_an_mau_ph32561.database.Dbhelper;
+import hieunnph32561.fpoly.du_an_mau_ph32561.model.Loaisach;
 import hieunnph32561.fpoly.du_an_mau_ph32561.model.Sach;
+import hieunnph32561.fpoly.du_an_mau_ph32561.model.Thanhvien;
 
 public class sachDAO {
 
@@ -26,7 +29,7 @@ public class sachDAO {
         ContentValues values = new ContentValues();
         values.put("TENSACH", s.getTenSach());
         values.put("GIATHUE", s.getGiaThue());
-        values.put("THELOAI", s.getMaLoai());
+        values.put("MALOAI", s.getMaLoai());
         return database.insert("SACH", null, values); // Trả về ID của hàng được chèn
     }
 
@@ -36,7 +39,7 @@ public class sachDAO {
         ContentValues values = new ContentValues();
         values.put("TENSACH", s.getTenSach());
         values.put("GIATHUE", s.getGiaThue());
-        values.put("THELOAI", s.getMaLoai());
+        values.put("MALOAI", s.getMaLoai());
         return database.update("SACH", values, "MASACH=?", new String[]{s.getMaSach() + ""});
     }
 
@@ -51,18 +54,20 @@ public class sachDAO {
     public ArrayList<Sach> getALLSACH(String sql, String... selectionArgs) {
         ArrayList<Sach> list = new ArrayList<>();
         SQLiteDatabase database = dBhelper.getReadableDatabase();
-        Cursor cursor = database.rawQuery("SELECT * FROM SACH", null);
+
+        Cursor cursor = database.rawQuery(sql, selectionArgs);
 
         while (cursor.moveToNext()) {
-            Sach login = new Sach(
-                    cursor.getInt(0),
-                    cursor.getString(1),
-                    cursor.getInt(2),
-                    cursor.getInt(3));
-            // Thêm sách vào danh sách
-            list.add(login);
+            @SuppressLint("Range") Sach s = new Sach(
+                    cursor.getInt(cursor.getColumnIndex("MASACH")),
+                    cursor.getString(cursor.getColumnIndex("TENSACH")),
+                    cursor.getInt(cursor.getColumnIndex("GIATHUE")),
+                    cursor.getInt(cursor.getColumnIndex("MALOAI"))
+                    );
+            list.add(s);
         }
-        return list; // Trả về danh sách sách
+        cursor.close(); // Đóng con trỏ khi hoàn thành công việc
+        return list; //
     }
 
     // Phương thức để lấy danh sách tất cả sách từ cơ sở dữ liệu (được đơn giản hóa)
@@ -72,9 +77,16 @@ public class sachDAO {
     }
 
     // Phương thức để lấy một cuốn sách cụ thể bằng ID từ cơ sở dữ liệu
-    public Sach getID(String id) {
-        String sql = "SELECT * FROM SACH WHERE MASACH=?";
+    public Sach getID(String id){
+        String sql = "select * from SACH where MASACH=?";
         List<Sach> list = getALLSACH(sql, id);
-        return list.get(0); // Trả về cuốn sách đầu tiên trong danh sách (nên chỉ có một cuốn)
+
+        if (!list.isEmpty()) {
+            return list.get(0);
+        }
+        else {
+            // Trả về một giá trị LoaiSach mặc định hoặc tạo một đối tượng mới tùy ý
+            return new Sach();
+        }
     }
 }

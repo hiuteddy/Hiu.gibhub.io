@@ -1,5 +1,6 @@
 package hieunnph32561.fpoly.du_an_mau_ph32561.Fragment;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -47,16 +48,16 @@ public class Doimatkhau extends Fragment {
                 String confirmPassword = confirmPasswordEditText.getText().toString();
 
                 if (TextUtils.isEmpty(oldPassword) || TextUtils.isEmpty(newPassword) || TextUtils.isEmpty(confirmPassword)) {
-                    Toast.makeText(getActivity(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 } else if (!newPassword.equals(confirmPassword)) {
-                    Toast.makeText(getActivity(), "New password and confirm password do not match", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Mật khẩu mới và xác nhận mật khẩu không khớp", Toast.LENGTH_SHORT).show();
                 } else {
                     // Kiểm tra mật khẩu cũ có đúng không
                     if (checkOldPassword(oldPassword)) {
                         // Mật khẩu cũ đúng, thay đổi mật khẩu mới
                         changePassword(newPassword);
                     } else {
-                        Toast.makeText(getActivity(), "Incorrect old password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Mật khẩu cũ không đúng", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -67,9 +68,9 @@ public class Doimatkhau extends Fragment {
 
     private boolean checkOldPassword(String oldPassword) {
         // Kiểm tra mật khẩu cũ trong cơ sở dữ liệu (điều này cần phải được điều chỉnh dựa trên cách bạn lưu mật khẩu)
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT MATKHAU FROM THUTHU WHERE MATT = ?", null);
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT MATKHAU FROM THUTHU WHERE MATT = ?", new String[]{oldPassword});
         if (cursor.moveToFirst()) {
-            String storedPassword = cursor.getString(0);
+            @SuppressLint("Range") String storedPassword = cursor.getString(cursor.getColumnIndex("MATKHAU"));
             cursor.close();
             return oldPassword.equals(storedPassword);
         }
@@ -81,7 +82,7 @@ public class Doimatkhau extends Fragment {
         // Cập nhật mật khẩu mới vào cơ sở dữ liệu (điều này cần phải được điều chỉnh dựa trên cách bạn lưu mật khẩu)
         ContentValues values = new ContentValues();
         values.put("MATKHAU", newPassword);
-        int rowsUpdated = sqLiteDatabase.update("THUTHU", values, "MATT = ?", null);
+        int rowsUpdated = sqLiteDatabase.update("THUTHU", values, "MATT = ?", new String[]{oldPasswordEditText.getText().toString()});
         if (rowsUpdated > 0) {
             // Đổi mật khẩu thành công
             Toast.makeText(getActivity(), "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();

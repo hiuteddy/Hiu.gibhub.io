@@ -47,8 +47,10 @@ public class adapter_loaisach extends RecyclerView.Adapter<adapter_loaisach.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Loaisach loaisach = list.get(position);
-        holder.tenloai.setText(loaisach.getTenLoai()); // Đảm bảo rằng bạn truy cập thuộc tính đúng
+
         holder.maloai.setText(String.valueOf(loaisach.getMaLoai())); // Đảm bảo rằng bạn truy cập thuộc tính đúng
+
+        holder.tenloai.setText(loaisach.getTenLoai()); // Đảm bảo rằng bạn truy cập thuộc tính đúng
         holder.txtdelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

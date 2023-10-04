@@ -1,7 +1,7 @@
 package hieunnph32561.fpoly.du_an_mau_ph32561.Fragment;
 
 import android.app.AlertDialog;
-import android.content.Context;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,30 +24,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hieunnph32561.fpoly.du_an_mau_ph32561.R;
-import hieunnph32561.fpoly.du_an_mau_ph32561.adapter.adapter_phieumuon;
 import hieunnph32561.fpoly.du_an_mau_ph32561.adapter.adapter_sach;
 import hieunnph32561.fpoly.du_an_mau_ph32561.dao.loaisachDAO;
-import hieunnph32561.fpoly.du_an_mau_ph32561.dao.phieumuonDAO;
 import hieunnph32561.fpoly.du_an_mau_ph32561.dao.sachDAO;
 import hieunnph32561.fpoly.du_an_mau_ph32561.model.Loaisach;
-import hieunnph32561.fpoly.du_an_mau_ph32561.model.Phieumuon;
 import hieunnph32561.fpoly.du_an_mau_ph32561.model.Sach;
 
 public class QLSach extends Fragment {
 
     RecyclerView rcvSach;
-    ArrayList<Sach> list;
     sachDAO sachDAO;
-    adapter_sach sachAdapter;
     loaisachDAO loaiSachDAO;
-    ArrayList<Loaisach> listLS;
+    adapter_sach sachAdapter;
+    List<Loaisach> listLS = new ArrayList<>();
+    List<Sach> list = new ArrayList<>();
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.framgment_ql_loaisach, container, false);
-        rcvSach = view.findViewById(R.id.rclls);
+        View view = inflater.inflate(R.layout.framgment_ql_sach, container, false);
+        rcvSach = view.findViewById(R.id.rcls);
 
         loaiSachDAO = new loaisachDAO(getContext());
         sachDAO = new sachDAO(getContext());
@@ -61,73 +58,63 @@ public class QLSach extends Fragment {
         rcvSach.setLayoutManager(layoutManager);
 
 
-        list = new ArrayList<>();
-        listLS = new ArrayList<>();
-
-
-        FloatingActionButton fabAddSach = view.findViewById(R.id.floatadls);
+        FloatingActionButton fabAddSach = view.findViewById(R.id.floatads);
         fabAddSach.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ThemSach();
+            openDiaLog();
             }
         });
         return view;
+
+
     }
 
 
-
-    public void ThemSach() {
+    private void openDiaLog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        LayoutInflater layoutInflater = getLayoutInflater();
-        View view = layoutInflater.inflate(R.layout.dialog_themsach, null);
-        builder.setView(view);
-        AlertDialog dialog = builder.create();
+        View view1 = LayoutInflater.from(getContext()).inflate(R.layout.dialog_themsach, null);
+        builder.setView(view1);
+        Dialog dialog = builder.create();
         dialog.show();
 
-        EditText edtTenSach = view.findViewById(R.id.editts);
-        EditText edtGia = view.findViewById(R.id.editgiasach);
-        Spinner spnLoaiSach = view.findViewById(R.id.spiner);
-        Button btnXacnhan = view.findViewById(R.id.buttonAddsach);
-        Button btnHuy = view.findViewById(R.id.buttonhuysach);
+        EditText edtTenSach = view1.findViewById(R.id.editts);
+        EditText edtGia = view1.findViewById(R.id.editgiasach);
+        Spinner spnLoaiSach = view1.findViewById(R.id.spiner);
+        Button btnXacnhan = view1.findViewById(R.id.buttonAddsach);
+        Button btnHuy = view1.findViewById(R.id.buttonhuysach);
 
-        listLS = (ArrayList<Loaisach>) loaiSachDAO.getAll();
-        ArrayAdapter<Loaisach> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, listLS);
-        spnLoaiSach.setAdapter(arrayAdapter);
+        listLS = loaiSachDAO.getAll();
+        ArrayAdapter arrayAdapte = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, listLS);
+        spnLoaiSach.setAdapter(arrayAdapte);
 
         btnXacnhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int gia = Integer.parseInt(edtGia.getText().toString());
                 String tenSach = edtTenSach.getText().toString();
-                String giaThueStr = edtGia.getText().toString();
+                Loaisach loaiSach = (Loaisach) spnLoaiSach.getSelectedItem();
+                int maLoai = loaiSach.getMaLoai(); // Giả sử bạn có một phương thức getMaLoai() để lấy mã loại sách
 
-                if (tenSach.isEmpty() || giaThueStr.isEmpty()){
+                Sach sach=new Sach(maLoai,tenSach,gia,maLoai);
+                if (edtTenSach.getText().toString().isEmpty() || edtGia.getText().toString().isEmpty()) {
                     Toast.makeText(getContext(), "Vui lòng nhập thông tin", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                int giaThue = Integer.parseInt(giaThueStr);
-                Loaisach selectedLoaiSach = (Loaisach) spnLoaiSach.getSelectedItem();
-
-                Sach sach = new Sach(0, tenSach, giaThue, selectedLoaiSach.getMaLoai());
-
-                long result = sachDAO.insert(sach);
-                if (result > 0) {
+                if (sachDAO.insert(sach) > 0) {
                     Toast.makeText(getContext(), "Thêm sách thành công", Toast.LENGTH_SHORT).show();
-
-                    //set lên rcl
                     list = sachDAO.getAll();
                     sachAdapter = new adapter_sach(getContext(), list);
                     rcvSach.setAdapter(sachAdapter);
-                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-                    rcvSach.setLayoutManager(layoutManager);
-
-                    dialog.dismiss();
+                    sachAdapter.notifyDataSetChanged(); // Cập nhật giao diện
+                    dialog.dismiss(); // Đóng hộp thoại sau khi thêm sách thành công
                 } else {
                     Toast.makeText(getContext(), "Thêm sách thất bại", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
 
         btnHuy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,4 +123,5 @@ public class QLSach extends Fragment {
             }
         });
     }
+
 }

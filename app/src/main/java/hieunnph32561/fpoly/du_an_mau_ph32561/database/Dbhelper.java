@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class Dbhelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Duanmau";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     public Dbhelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -26,31 +26,32 @@ public class Dbhelper extends SQLiteOpenHelper {
         // Tạo bảng THANHVIEN
 
         String createTABLEthanhvien = "CREATE TABLE THANHVIEN (" +
-                "MATV TEXT PRIMARY KEY , " +
+                "MATV INTEGER PRIMARY KEY AUTOINCREMENT , " +
                 "HOTEN TEXT NOT NULL, " +
                 "NAMSINH INTEGER NOT NULL)";
         db.execSQL(createTABLEthanhvien);
+
+
+
+        String createTABLEloaisach = "CREATE TABLE LOAISACH (" +
+                "MALOAI INTEGER PRIMARY KEY AUTOINCREMENT , " +
+                "THELOAI TEXT)";
+        db.execSQL(createTABLEloaisach);
 
         // Tạo bảng SACH
         String createTABLEsach = "CREATE TABLE SACH (" +
                 "MASACH INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "TENSACH TEXT NOT NULL, " +
                 "GIATHUE INTEGER NOT NULL, " +
-                "THELOAI TEXT NOT NULL)";
+                "MALOAI INTEGER REFERENCES LOAISACH(MALOAI))";
         db.execSQL(createTABLEsach);
 
-        // Tạo bảng LOAISACH
-
-        String createTABLEloaisach = "CREATE TABLE LOAISACH (" +
-                "MALOAI INTEGER PRIMARY KEY, " +
-                "THELOAI TEXT)";
-        db.execSQL(createTABLEloaisach);
 
         // Tạo bảng PhieuMuon
 
         String createTablePhieuMuon = "CREATE TABLE PHIEUMUON (" +
                 "MAPM INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "MATV TEXT REFERENCES THANHVIEN(MATV), " +
+                "MATV INTEGER REFERENCES THANHVIEN(MATV), " +
                 "MATT TEXT REFERENCES THUTHU(MATT), " +
                 "MASACH INTEGER REFERENCES SACH(MASACH), " +
                 "NGAY TEXT NOT NULL, " +
@@ -69,34 +70,34 @@ public class Dbhelper extends SQLiteOpenHelper {
 
         //Thêm bảng sách
 
-        String insertSach = "INSERT INTO SACH (TENSACH, GIATHUE, THELOAI) VALUES " +
-                "('Doremon', 45000, 'Tình yêu'), " +
-                "('Snack', 8000, 'Tội phạm'), " +
-                "('Anime', 25000, 'Hài')";
+        String insertSach = "INSERT INTO SACH (TENSACH, GIATHUE, MALOAI) VALUES " +
+                "('Doremon', 45000, 2), " +
+                "('Snack', 8000, 1), " +
+                "('Anime', 25000, 2)";
         db.execSQL(insertSach);
 
         //Thêm bảng loại sách
 
-        String insertLoaiSach = "INSERT INTO LOAISACH (MALOAI, THELOAI) VALUES " +
-                "(1, 'Tình yêu'), " +
-                "(2, 'Tội phạm'), " +
-                "(3, 'Hài')";
+        String insertLoaiSach = "INSERT INTO LOAISACH (THELOAI) VALUES " +
+                "( 'Tình yêu'), " +
+                "( 'Tội phạm'), " +
+                "( 'Hài')";
         db.execSQL(insertLoaiSach);
 
         //Thêm bảng thành viên
 
         String insertThanhVien1 = "INSERT INTO THANHVIEN (MATV, HOTEN, NAMSINH) VALUES " +
-                "('TV001', 'Nguyen Van X', 1990)," +
-                "('TV002', 'Tran Thi Y', 1985)," +
-                "('TV003', 'Le Van Z', 1995)";
+                "(1, 'Nguyen Van X', 1990)," +
+                "(2, 'Tran Thi Y', 1985)," +
+                "(3, 'Le Van Z', 1995)";
         db.execSQL(insertThanhVien1);
 
         //Thêm bảng phiếu mượn
 
         String insertPhieuMuon1 = "INSERT INTO PHIEUMUON (MATV, MATT, MASACH, NGAY, TRASACH, TIENTHUE) VALUES " +
-                "('TV001', 'TT001', 1, '2023-09-27', 0, 30000)," +
-                "('TV002', 'TT002', 2, '2023-09-28', 0, 40000)," +
-                "('TV003', 'TT003', 3, '2023-09-29', 0, 50000)";
+                "(1, 'TT001', 1, '2023-09-27', 0, 30000)," +
+                "(2, 'TT002', 2, '2023-09-28', 0, 40000)," +
+                "(3, 'TT003', 3, '2023-09-29', 0, 50000)";
 
         db.execSQL(insertPhieuMuon1);
 

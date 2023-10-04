@@ -26,14 +26,18 @@ import hieunnph32561.fpoly.du_an_mau_ph32561.model.Sach;
 
 public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsanpham> {
 
-    private Context context;
-    private ArrayList<Sach> list;
-    private sachDAO dao;
-    private Loaisach loaisach;
-    private loaisachDAO daoo;
-    public adapter_sach(Context context, ArrayList<Sach> list) {
+     Context context;
+     List<Sach> list;
+     sachDAO dao;
+     Loaisach loaisach;
+     loaisachDAO daoo;
+
+    public adapter_sach(Context context, List<Sach> list) {
         this.context = context;
         this.list = list;
+        dao = new sachDAO(context);
+        daoo = new loaisachDAO(context);
+
     }
 
     @NonNull
@@ -47,15 +51,13 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
     @Override
     public void onBindViewHolder(@NonNull ViewHodelsanpham holder, @SuppressLint("RecyclerView") int position) {
         Sach sach = list.get(position);
-        dao = new sachDAO(context);
-        daoo = new loaisachDAO(context);
 
 // Lấy thông tin thể loại sách từ bảng Loaisach dựa trên khóa ngoại maLoai
         loaisach = daoo.getID(String.valueOf(sach.getMaLoai()));
 
         holder.Masach.setText("" + sach.getMaSach());
         holder.tensach.setText("" + sach.getTenSach());
-        holder.theloai.setText("" + loaisach.getTenLoai()); // Lấy tên thể loại sách từ đối tượng Loaisach
+        holder.theloai.setText( loaisach.getTenLoai()); // Lấy tên thể loại sách từ đối tượng Loaisach
         holder.giasach.setText("" + sach.getGiaThue());
 
 
@@ -91,7 +93,6 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
                         dialog.dismiss();
                     }
                 });
-
                 // Hiển thị hộp thoại xác nhận xóa
                 AlertDialog dialog = builder.create();
                 dialog.show();

@@ -19,15 +19,19 @@
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
             android:text="Thêm Phiếu Mượn"
-            android:textSize="20sp"
+            android:textSize="30dp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/edtmpm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:hint="Mã phiếu mượn" />
+<!--        <EditText-->
+<!--            android:id="@+id/edtmpm"-->
+<!--            android:background="@drawable/edittext_bg"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:textColor="#FF0000"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            android:focusable="false"-->
+<!--            android:focusableInTouchMode="false"-->
+<!--            android:hint="Mã phiếu mượn" />-->
 
         <Spinner
             android:id="@+id/spinertentv"
@@ -43,20 +47,22 @@
             android:layout_marginBottom="16dp"
             android:hint="Tên thể loại sách" />
 
-        <EditText
+        <TextView
             android:id="@+id/txtngay"
+            android:background="@drawable/edittext_bg"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:hint="Ngày" />
 
-        <EditText
-            android:id="@+id/edittienthuepm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:hint="Tiền thuê" />
+<!--        <TextView-->
+<!--            android:id="@+id/edittienthuepm"-->
+<!--            android:background="@drawable/edittext_bg"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:hint="Tiền thuê" />-->
 
         <CheckBox
             android:id="@+id/cbktt"

@@ -5,6 +5,8 @@ public class Loaisach {
     private int maLoai;
     private String tenLoai;
 
+    public Loaisach() {
+    }
 
     public Loaisach(String tenLoai) {
         this.tenLoai = tenLoai;
@@ -33,7 +35,7 @@ public class Loaisach {
 
     @Override
     public String toString() {
-        return maLoai + "|" + tenLoai;
+        return tenLoai;
     }
 }
 

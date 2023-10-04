@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
     android:background="@drawable/bottom_background"
     android:orientation="vertical">
 
@@ -13,7 +12,7 @@
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -29,8 +28,8 @@
         android:layout_marginTop="24dp"
         android:text="Đổi Mật Khẩu"
         android:textColor="#000000"
-        android:textSize="24sp"
-        android:textStyle="italic"
+        android:textSize="30dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,16 +38,16 @@
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="520dp"
-        android:layout_margin="40dp"
-        android:background="@drawable/bgr_doimk"
+        android:layout_height="560dp"
+        android:layout_margin="60dp"
+        android:background="@drawable/edittext_bg"
         android:orientation="vertical"
+        android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.35"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_title"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.117">
 
         <TextView
             android:id="@+id/textView"

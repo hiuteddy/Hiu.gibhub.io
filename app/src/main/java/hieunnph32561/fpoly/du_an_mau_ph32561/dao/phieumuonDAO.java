@@ -28,7 +28,7 @@ public class phieumuonDAO {
             cursor.moveToFirst();
             do{
                 list.add(new Phieumuon(cursor.getInt(0)
-                        ,cursor.getString(1),
+                        ,cursor.getInt(1),
                         cursor.getString(2),
                         cursor.getInt(3),
                         cursor.getString(4),
@@ -53,7 +53,7 @@ public class phieumuonDAO {
         contentValues.put("TRASACH",phieuMuon.getTrasach());
         contentValues.put("TIENTHUE",phieuMuon.getTienthue());
 
-        return sqLiteDatabase.insert("PIEUMUON",null,contentValues);
+        return sqLiteDatabase.insert("PHIEUMUON",null,contentValues);
     }
 
         public long upate(Phieumuon phieuMuon){

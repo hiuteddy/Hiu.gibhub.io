@@ -1,17 +1,20 @@
 package hieunnph32561.fpoly.du_an_mau_ph32561.model;
+
+import java.util.Date;
+
 public class Phieumuon {
     private int mapm;
     private String matt;
     private int matv;
     private int masach;
-    private String ngay;
+    private Date ngay;
     private int trasach;
     private int tienthue;
 
     public Phieumuon() {
     }
 
-    public Phieumuon(int mapm, int matv, String matt, int masach, String ngay, int trasach, int tienthue) {
+    public Phieumuon(int mapm, int matv, String matt, int masach, Date ngay, int trasach, int tienthue) {
         this.mapm = mapm;
         this.matt = matt;
         this.matv = matv;
@@ -54,11 +57,11 @@ public class Phieumuon {
         this.masach = masach;
     }
 
-    public String getNgay() {
+    public Date getNgay() {
         return ngay;
     }
 
-    public void setNgay(String ngay) {
+    public void setNgay(Date ngay) {
         this.ngay = ngay;
     }
 

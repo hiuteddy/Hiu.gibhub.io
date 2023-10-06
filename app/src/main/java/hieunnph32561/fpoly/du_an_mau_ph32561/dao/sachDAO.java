@@ -79,7 +79,7 @@ public class sachDAO {
     // Phương thức để lấy một cuốn sách cụ thể bằng ID từ cơ sở dữ liệu
     public Sach getID(String id){
         String sql = "select * from SACH where MASACH=?";
-        List<Sach> list = getALLSACH(sql, id);
+        ArrayList<Sach> list = getALLSACH(sql, id);
 
         if (!list.isEmpty()) {
             return list.get(0);

@@ -27,12 +27,13 @@ import hieunnph32561.fpoly.du_an_mau_ph32561.model.Sach;
 public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsanpham> {
 
      Context context;
-     List<Sach> list;
+     ArrayList<Sach> list;
      sachDAO dao;
-     Loaisach loaisach;
      loaisachDAO daoo;
+    Loaisach loaisach;
 
-    public adapter_sach(Context context, List<Sach> list) {
+
+    public adapter_sach(Context context, ArrayList<Sach> list) {
         this.context = context;
         this.list = list;
         dao = new sachDAO(context);
@@ -113,7 +114,6 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
     public static class ViewHodelsanpham extends RecyclerView.ViewHolder {
         TextView Masach, tensach, giasach, theloai;
         ImageView  txtdelete;
-        Spinner spinner;
 
         public ViewHodelsanpham(@NonNull View itemView) {
             super(itemView);

@@ -36,8 +36,8 @@ public class QLSach extends Fragment {
     sachDAO sachDAO;
     loaisachDAO loaiSachDAO;
     adapter_sach sachAdapter;
-    List<Loaisach> listLS = new ArrayList<>();
-    List<Sach> list = new ArrayList<>();
+    ArrayList<Loaisach> listLS = new ArrayList<>();
+    ArrayList<Sach> list = new ArrayList<>();
 
 
     @Nullable

@@ -31,7 +31,7 @@ public class Trang_chu extends AppCompatActivity {
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        FrameLayout frameLayout = findViewById(R.id.framelayout);
+//        FrameLayout frameLayout = findViewById(R.id.framelayout);
         NavigationView navigationView = findViewById(R.id.navigationview);
         drawerLayout = findViewById(R.id.drawerlayout);
 

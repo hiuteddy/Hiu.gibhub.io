@@ -2,55 +2,77 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/dialog_item"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_margin="10dp"
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Thêm Sách"
-        android:textSize="18sp"
+        android:textColor="#C9E3F8"
+        android:textSize="30sp"
         android:textStyle="bold"
-        android:layout_gravity="center"
-        android:layout_marginBottom="16dp" />
+        android:background="#7045BC"
+        android:padding="16dp"
+        android:gravity="center"  />
 
-    <EditText
-        android:id="@+id/editts"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Tên Sách"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginTop="10dp">
 
-    <EditText
-        android:id="@+id/editgiasach"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tên Sách" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Giá Sách"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginTop="20dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editgiasach"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Giá sách" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <Spinner
+        android:layout_marginTop="15dp"
         android:id="@+id/spiner"
+        android:background="@drawable/dialog_item"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Thể Loại"
-        android:layout_marginBottom="16dp" />
+        android:layout_height="40dp"
+        android:layout_marginBottom="16dp"
+        android:hint="Thể Loại" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:layout_gravity="end"
         android:orientation="horizontal">
 
         <Button
-            android:layout_marginRight="20dp"
             android:id="@+id/buttonhuysach"
+            android:background="@drawable/edittext_bg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
             android:text="Hủy" />
 
         <Button
             android:id="@+id/buttonAddsach"
+            android:background="@drawable/edittext_bg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Thêm" />

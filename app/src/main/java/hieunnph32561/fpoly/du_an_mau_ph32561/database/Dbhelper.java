@@ -54,7 +54,7 @@ public class Dbhelper extends SQLiteOpenHelper {
                 "MATV INTEGER REFERENCES THANHVIEN(MATV), " +
                 "MATT TEXT REFERENCES THUTHU(MATT), " +
                 "MASACH INTEGER REFERENCES SACH(MASACH), " +
-                "NGAY TEXT NOT NULL, " +
+                "NGAY DATE NOT NULL, " +
                 "TRASACH INTEGER NOT NULL, " +
                 "TIENTHUE INTEGER NOT NULL)";
         db.execSQL(createTablePhieuMuon);

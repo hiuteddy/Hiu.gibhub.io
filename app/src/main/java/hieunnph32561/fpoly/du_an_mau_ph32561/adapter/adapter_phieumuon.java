@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import hieunnph32561.fpoly.du_an_mau_ph32561.R;
@@ -30,6 +31,7 @@ public class adapter_phieumuon extends RecyclerView.Adapter<adapter_phieumuon.Vi
     private Context context;
     private ArrayList<Phieumuon> list;
 
+
     phieumuonDAO phieumuonDAO;
     thanhvienDAO dao;
     sachDAO daoo;
@@ -37,11 +39,21 @@ public class adapter_phieumuon extends RecyclerView.Adapter<adapter_phieumuon.Vi
     Sach sach;
     Thanhvien thanhvien;
 
+    private PhieuMuonClick phieuMuonClick;
+
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+
 
     public adapter_phieumuon(Context context, ArrayList<Phieumuon> list, hieunnph32561.fpoly.du_an_mau_ph32561.dao.phieumuonDAO phieumuonDAO) {
         this.context = context;
         this.list = list;
         this.phieumuonDAO = phieumuonDAO;
+    }
+
+    public void setPhieuMuonClick(PhieuMuonClick phieuMuonClick) {
+        this.phieuMuonClick = phieuMuonClick;
     }
 
     @NonNull
@@ -74,7 +86,7 @@ public class adapter_phieumuon extends RecyclerView.Adapter<adapter_phieumuon.Vi
         holder.txtthanhvien.setText(String.valueOf(thanhvien.getHoten()));
         holder.txttensach.setText(String.valueOf(sach.getTenSach()));
         holder.txttienthue.setText(String.valueOf(sach.getGiaThue()));
-        holder.txtngaythue.setText(list.get(position).getNgay());
+        holder.txtngaythue.setText(sdf.format(phieumuon.getNgay()));
         int trangthai = list.get(position).getTrasach();
 
 // Kiểm tra và hiển thị trạng thái dựa trên giá trị trangthai: 1 - đã trả, 0 - chưa trả
@@ -84,7 +96,12 @@ public class adapter_phieumuon extends RecyclerView.Adapter<adapter_phieumuon.Vi
             holder.txttrangthai.setText("Chưa trả");
         }
 
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                phieuMuonClick.onClick(list.get(position));
+            }
+        });
         holder.imvdl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +114,7 @@ public class adapter_phieumuon extends RecyclerView.Adapter<adapter_phieumuon.Vi
                                 if (phieumuonDAO.delete(String.valueOf(phieumuon.getMapm())) > 0) {
                                     Toast.makeText(context, "Xóa thành công", Toast.LENGTH_SHORT).show();
                                     list.clear();
-                                    list.addAll(phieumuonDAO.getDSPhieuMuon());
+                                    list.addAll(phieumuonDAO.getAll());
                                     notifyDataSetChanged();
                                 } else {
                                     Toast.makeText(context, "Xóa thất bại", Toast.LENGTH_SHORT).show();

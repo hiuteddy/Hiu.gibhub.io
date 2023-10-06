@@ -36,7 +36,7 @@ import hieunnph32561.fpoly.du_an_mau_ph32561.model.Sach;
 public class QlLoaiSach extends Fragment {
 
     RecyclerView rcvLoaiSach;
-    ArrayList<Loaisach> list;
+    ArrayList<Loaisach> list=new ArrayList<>();
     loaisachDAO loaiSachDAO;
     adapter_loaisach loaiSachAdapter;
     @Nullable
@@ -46,7 +46,7 @@ public class QlLoaiSach extends Fragment {
         rcvLoaiSach = view.findViewById(R.id.rclls);
 
         loaiSachDAO = new loaisachDAO(getContext());
-        list = (ArrayList<Loaisach>) loaiSachDAO.getAll();
+        list =  loaiSachDAO.getAll();
         loaiSachAdapter = new adapter_loaisach(getContext(),list, loaiSachDAO);
         rcvLoaiSach.setAdapter(loaiSachAdapter);
 
@@ -85,7 +85,7 @@ public class QlLoaiSach extends Fragment {
                 }else {
                     if( loaiSachDAO.insert(ls)>0) {
                         loaiSachDAO = new loaisachDAO(getContext());
-                        list = (ArrayList<Loaisach>) loaiSachDAO.getAll();
+                        list = loaiSachDAO.getAll();
                         loaiSachAdapter = new adapter_loaisach(getContext(),list, loaiSachDAO);
                         rcvLoaiSach.setAdapter(loaiSachAdapter);
 

@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Locale;
 
 import hieunnph32561.fpoly.du_an_mau_ph32561.R;
+import hieunnph32561.fpoly.du_an_mau_ph32561.adapter.PhieuMuonClick;
 import hieunnph32561.fpoly.du_an_mau_ph32561.adapter.adapter_phieumuon;
 import hieunnph32561.fpoly.du_an_mau_ph32561.dao.phieumuonDAO;
 import hieunnph32561.fpoly.du_an_mau_ph32561.dao.sachDAO;
@@ -44,17 +45,20 @@ import hieunnph32561.fpoly.du_an_mau_ph32561.model.Thanhvien;
 
 public class QlPhieuMuon extends Fragment {
     RecyclerView recyclerView;
-    ArrayList<Phieumuon> lista = new ArrayList<>();
-    phieumuonDAO dao;
-    adapter_phieumuon phieumuon;
-
+    adapter_phieumuon phieumuonn;
     FloatingActionButton flbtn;
+    ArrayList<Phieumuon> lista = new ArrayList<>();
+    ArrayList<Sach> sachList = new ArrayList<>();
+    ArrayList<Thanhvien> vienList = new ArrayList<>();
+    sachDAO sachDao;
+    thanhvienDAO thanhVienDao;
+    phieumuonDAO dao;
+    long millis = System.currentTimeMillis();
+    java.sql.Date date = new java.sql.Date(millis);
 
-    private List<Sach> sachList = new ArrayList<>();
-    private List<Thanhvien> vienList = new ArrayList<>();
-    private sachDAO sachDao;
-    private thanhvienDAO thanhVienDao;
-    int matv,mas,tien;
+    private int matv,mas,tien;
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 
     @Nullable
@@ -66,19 +70,16 @@ public class QlPhieuMuon extends Fragment {
         flbtn = view.findViewById(R.id.floatadd);
 
         dao = new phieumuonDAO(getContext());
-        lista = dao.getDSPhieuMuon();
-        phieumuon = new adapter_phieumuon(getContext(), lista, dao);
+        lista = dao.getAll();
+        phieumuonn = new adapter_phieumuon(getContext(), lista, dao);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(phieumuon);
+        recyclerView.setAdapter(phieumuonn);
 
 
         sachDao = new sachDAO(getContext());
         thanhVienDao = new thanhvienDAO(getContext());
-
-        long millis = System.currentTimeMillis();
-        java.sql.Date date = new java.sql.Date(millis);
 
         flbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +88,137 @@ public class QlPhieuMuon extends Fragment {
             }
         });
 
-        return view; // Trả về view đã inflate
+
+        phieumuonn.setPhieuMuonClick(new PhieuMuonClick() {
+            @Override
+            public void onClick(Phieumuon phieumuonm) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                View view1 = inflater.inflate(R.layout.dialog_update, null);
+
+                // Khởi tạo các thành phần giao diện
+                Spinner spnts = view1.findViewById(R.id.spinertensachs);
+                Spinner spnttv = view1.findViewById(R.id.spinertentvs);
+                TextView txt = view1.findViewById(R.id.txtngays);
+                TextView txttt = view1.findViewById(R.id.edittienthuepms);
+                CheckBox cbk = view1.findViewById(R.id.cbktts);
+                Button btnudt = view1.findViewById(R.id.btntpms);
+                Button btnhuy = view1.findViewById(R.id.btnhuypms);
+
+                // Thiết lập giao diện
+                builder.setView(view1);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+                // Khởi tạo các đối tượng DAO và danh sách
+                sachDao = new sachDAO(getContext());
+                thanhVienDao = new thanhvienDAO(getContext());
+                sachList = (ArrayList<Sach>) sachDao.getAll();
+                vienList = (ArrayList<Thanhvien>) thanhVienDao.getAll();
+
+                // Khởi tạo các Adapter và gán cho Spinner
+                ArrayAdapter<Sach> adapter_sach = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, sachList);
+                ArrayAdapter<Thanhvien> adapter_tv = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, vienList);
+                spnts.setAdapter(adapter_sach);
+                spnttv.setAdapter(adapter_tv);
+
+                // Thiết lập sự kiện khi mục được chọn trong Spinner spnttv
+                spnttv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        txt.setText("Ngày thuê: " + sdf.format(phieumuonm.getNgay()));
+                        matv=vienList.get(position).getMatv();
+                        Toast.makeText(getContext(), "Chọn: " + vienList.get(position).getHoten(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+                // Thiết lập sự kiện khi mục được chọn trong Spinner spnts
+                spnts.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        txttt.setText("Giá: " + sachList.get(position).getGiaThue());
+                        mas=sachList.get(position).getMaSach();
+                        tien=sachList.get(position).getGiaThue();
+                        Toast.makeText(getContext(), "Chọn: " + sachList.get(position).getTenSach(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+                int vt_sach = -1;
+                int vt_thanhvien = -1;
+                for (int i = 0; i < vienList.size(); i++) {
+                    if (phieumuonm.getMatv() == (vienList.get(i).getMatv())) {
+                        vt_thanhvien = i;
+                        break;
+                    }
+
+                }
+                spnttv.setSelection(vt_thanhvien);
+
+                for (int i = 0; i < sachList.size(); i++) {
+                    if (phieumuonm.getMasach() == (sachList.get(i).getMaSach())) {
+                        vt_sach = i;
+                        break;
+                    }
+
+                }
+                spnts.setSelection(vt_sach);
+                // Thiết lập sự kiện khi nhấn nút "Thêm"
+                btnudt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Lấy các đối tượng được chọn trong Spinner
+                        Thanhvien vien = (Thanhvien) spnttv.getSelectedItem();
+                        Sach sach = (Sach) spnts.getSelectedItem();
+
+                        phieumuonm.setMasach(sach.getMaSach());
+                        phieumuonm.setMatv(vien.getMatv());
+                        phieumuonm.setNgay(java.sql.Date.valueOf(String.valueOf(date)));
+
+                        // Gán giá trị Trasach dựa trên trạng thái CheckBox
+                        if (cbk.isChecked()) {
+                            phieumuonm.setTrasach(1);
+                        } else {
+                            phieumuonm.setTrasach(0);
+                        }
+
+                        // Lấy thông tin giá thuê từ đối tượng Sach
+                        Sach sach2 = sachDao.getID(phieumuonm.getMasach() + "");
+                        phieumuonm.setTienthue(sach2.getGiaThue());
+
+
+                        // Thêm phiếu mượn vào cơ sở dữ liệu
+                        if (dao.update(phieumuonm) > 0) {
+                            Toast.makeText(getContext(), "Update phiếu mượn thành công", Toast.LENGTH_SHORT).show();
+                            lista.clear();
+                            lista.addAll(dao.getAll());
+                            phieumuonn.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(getContext(), "Update phiếu mượn thất bại", Toast.LENGTH_SHORT).show();
+                        }
+
+                        dialog.dismiss();
+                    }
+                });
+
+                // Thiết lập sự kiện khi nhấn nút "Hủy"
+                btnhuy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+        return view;
     }
 
     public void showaddpm() {
@@ -95,35 +226,39 @@ public class QlPhieuMuon extends Fragment {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view = inflater.inflate(R.layout.dialog_thempm, null);
 
+        // Khởi tạo các thành phần giao diện
         Spinner spnts = view.findViewById(R.id.spinertensach);
         Spinner spnttv = view.findViewById(R.id.spinertentv);
         TextView txt = view.findViewById(R.id.txtngay);
-     //   TextView txttt = view.findViewById(R.id.edittienthuepm);
+        TextView txttt = view.findViewById(R.id.edittienthuepm);
         CheckBox cbk = view.findViewById(R.id.cbktt);
         Button btnadd = view.findViewById(R.id.btntpm);
         Button btnhuy = view.findViewById(R.id.btnhuypm);
 
+        // Thiết lập giao diện
         builder.setView(view);
         AlertDialog dialog = builder.create();
         dialog.show();
 
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String currentDate = sdf.format(calendar.getTime());
-        txt.setText(currentDate);
-
+        // Khởi tạo các đối tượng DAO và danh sách
         sachDao = new sachDAO(getContext());
         thanhVienDao = new thanhvienDAO(getContext());
         sachList = (ArrayList<Sach>) sachDao.getAll();
         vienList = (ArrayList<Thanhvien>) thanhVienDao.getAll();
-        ArrayAdapter adapter_sach = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, sachList );
-        ArrayAdapter adapter_tv = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, vienList);
+
+        // Khởi tạo các Adapter và gán cho Spinner
+        ArrayAdapter<Sach> adapter_sach = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, sachList);
+        ArrayAdapter<Thanhvien> adapter_tv = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, vienList);
         spnts.setAdapter(adapter_sach);
         spnttv.setAdapter(adapter_tv);
+
+        // Thiết lập sự kiện khi mục được chọn trong Spinner spnttv
         spnttv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                 matv = vienList.get(position).getMatv();
+                txt.setText("Ngày thuê: " + date);
+                matv=vienList.get(position).getMatv();
+
                 Toast.makeText(getContext(), "Chọn: " + vienList.get(position).getHoten(), Toast.LENGTH_SHORT).show();
             }
 
@@ -132,11 +267,14 @@ public class QlPhieuMuon extends Fragment {
 
             }
         });
+
+        // Thiết lập sự kiện khi mục được chọn trong Spinner spnts
         spnts.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                 mas = sachList.get(position).getMaSach();
-                 tien = sachList.get(position).getGiaThue();
+                txttt.setText("Giá: " + sachList.get(position).getGiaThue());
+                mas=sachList.get(position).getMaSach();
+                tien=sachList.get(position).getGiaThue();
                 Toast.makeText(getContext(), "Chọn: " + sachList.get(position).getTenSach(), Toast.LENGTH_SHORT).show();
             }
 
@@ -145,34 +283,47 @@ public class QlPhieuMuon extends Fragment {
 
             }
         });
+
+        // Thiết lập sự kiện khi nhấn nút "Thêm"
         btnadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Phieumuon phieuMuon = new Phieumuon();
+                // Lấy các đối tượng được chọn trong Spinner
                 Thanhvien vien = (Thanhvien) spnttv.getSelectedItem();
                 Sach sach = (Sach) spnts.getSelectedItem();
+
+                // Tạo đối tượng Phieumuon và gán các giá trị
+                Phieumuon phieuMuon = new Phieumuon();
                 phieuMuon.setMasach(sach.getMaSach());
                 phieuMuon.setMatv(vien.getMatv());
+                phieuMuon.setNgay(java.sql.Date.valueOf(String.valueOf(date)));
+
+                // Gán giá trị Trasach dựa trên trạng thái CheckBox
                 if (cbk.isChecked()) {
                     phieuMuon.setTrasach(1);
                 } else {
                     phieuMuon.setTrasach(0);
                 }
+
+                // Lấy thông tin giá thuê từ đối tượng Sach
                 Sach sach1 = sachDao.getID(phieuMuon.getMasach() + "");
                 phieuMuon.setTienthue(sach1.getGiaThue());
-                phieuMuon.setNgay(currentDate); // Sử dụng ngày hiện tại
+
+                // Thêm phiếu mượn vào cơ sở dữ liệu
                 if (dao.insert(phieuMuon) > 0) {
                     Toast.makeText(getContext(), "Thêm phiếu mượn thành công", Toast.LENGTH_SHORT).show();
                     lista.clear();
-                    lista.addAll(dao.getDSPhieuMuon());
-                    phieumuon.notifyDataSetChanged();
+                    lista.addAll(dao.getAll());
+                    phieumuonn.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getContext(), "Thêm phiếu mượn thất bại", Toast.LENGTH_SHORT).show();
                 }
+
                 dialog.dismiss();
             }
         });
 
+        // Thiết lập sự kiện khi nhấn nút "Hủy"
         btnhuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,6 +331,8 @@ public class QlPhieuMuon extends Fragment {
             }
         });
     }
+
+
 
 
 }

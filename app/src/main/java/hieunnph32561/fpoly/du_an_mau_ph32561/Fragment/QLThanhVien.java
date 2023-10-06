@@ -30,11 +30,11 @@ import hieunnph32561.fpoly.du_an_mau_ph32561.model.Thanhvien;
 
 public class QLThanhVien extends Fragment {
 
-    private RecyclerView recyclerView;
-    private List<Thanhvien> list;
+    RecyclerView recyclerView;
+    private ArrayList<Thanhvien> list=new ArrayList<>();
     adapter_thanhvien adapterThanhvien;
     thanhvienDAO tvdao;
-    private Context context;
+    Context context;
 
     FloatingActionButton floatingActionButton;
 
@@ -81,10 +81,8 @@ public class QLThanhVien extends Fragment {
         btnXacnhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             //   String edtmtvv = edtmtv.getText().toString();
                 String edtTentvvv = edtTentv.getText().toString();
                 String edtnss = edtns.getText().toString();
-              //  int tvv = Integer.parseInt(edtmtvv);
                 Thanhvien tv = new Thanhvien( edtTentvvv, edtnss);
                 if (edtTentvvv.length() == 0) {
                     Toast.makeText(getContext(), "Vui lòng nhập thông tin", Toast.LENGTH_SHORT).show();

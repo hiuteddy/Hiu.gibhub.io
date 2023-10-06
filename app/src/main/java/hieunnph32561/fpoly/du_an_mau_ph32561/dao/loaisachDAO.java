@@ -64,7 +64,7 @@ public class loaisachDAO {
 
 
     // Lấy danh sách tất cả các loại sách từ cơ sở dữ liệu
-    public List<Loaisach> getAll() {
+    public ArrayList<Loaisach> getAll() {
         // Chuỗi SQL truy vấn để lấy tất cả dữ liệu từ bảng LOAISACH
         String sql = "SELECT * FROM LOAISACH";
         return getALLSACH(sql);
@@ -73,7 +73,7 @@ public class loaisachDAO {
     // Lấy thông tin của một loại sách dựa trên mã loại
     public Loaisach getID(String id){
         String sql = "select * from LOAISACH where MALOAI=?";
-        List<Loaisach> list = getALLSACH(sql, id);
+        ArrayList<Loaisach> list = getALLSACH(sql, id);
 
         if (!list.isEmpty()) {
             return list.get(0);

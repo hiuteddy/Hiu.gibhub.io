@@ -6,7 +6,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import hieunnph32561.fpoly.du_an_mau_ph32561.database.Dbhelper;
 import hieunnph32561.fpoly.du_an_mau_ph32561.model.Loaisach;
@@ -20,54 +23,84 @@ public class phieumuonDAO {
         dbhelper = new Dbhelper(context);
     }
 
-    public ArrayList<Phieumuon> getDSPhieuMuon() {
-        ArrayList<Phieumuon> list = new ArrayList<>();
-        SQLiteDatabase sqLiteDatabase = dbhelper.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM PHIEUMUON",null);
-        if(cursor.getCount() != 0) {
-            cursor.moveToFirst();
-            do{
-                list.add(new Phieumuon(cursor.getInt(0)
-                        ,cursor.getInt(1),
-                        cursor.getString(2),
-                        cursor.getInt(3),
-                        cursor.getString(4),
-                        cursor.getInt(5),
-                        cursor.getInt(6)
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-                      ));
-            }while (cursor.moveToNext());
+
+    public ArrayList<Phieumuon> getALLPM(String sql, String... selectionArgs) {
+        ArrayList<Phieumuon> list = new ArrayList<>();
+        SQLiteDatabase database = dbhelper.getReadableDatabase();
+        Cursor cursor = database.rawQuery(sql, selectionArgs);
+
+        while (cursor.moveToNext()) {
+            try {
+                @SuppressLint("Range") Date ngay = sdf.parse(cursor.getString(cursor.getColumnIndex("NGAY")));
+
+               @SuppressLint("Range") Phieumuon pm = new Phieumuon(
+                        cursor.getInt(cursor.getColumnIndex("MAPM")),
+                        cursor.getInt(cursor.getColumnIndex("MATV")),
+                        cursor.getString(cursor.getColumnIndex("MATT")),
+                        cursor.getInt(cursor.getColumnIndex("MASACH")),
+                        ngay,
+                        cursor.getInt(cursor.getColumnIndex("TRASACH")),
+                        cursor.getInt(cursor.getColumnIndex("TIENTHUE"))
+                );
+
+                list.add(pm);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
+        cursor.close();
         return list;
     }
-
-
-
-    public long insert(Phieumuon phieuMuon){
-        SQLiteDatabase sqLiteDatabase=dbhelper.getWritableDatabase();
-        ContentValues contentValues=new ContentValues();
-        contentValues.put("MATV",phieuMuon.getMatv());
-        contentValues.put("MATT",phieuMuon.getMatt());
-        contentValues.put("MASACH",phieuMuon.getMasach());
-        contentValues.put("NGAY",phieuMuon.getNgay());
-        contentValues.put("TRASACH",phieuMuon.getTrasach());
-        contentValues.put("TIENTHUE",phieuMuon.getTienthue());
-
-        return sqLiteDatabase.insert("PHIEUMUON",null,contentValues);
+    public ArrayList<Phieumuon> getAll() {
+        String sql = "SELECT * FROM PHIEUMUON";
+        return (ArrayList<Phieumuon>) getALLPM(sql); // Gọi getALLSACH với một truy vấn SQL đã được định nghĩa trước
     }
 
-        public long upate(Phieumuon phieuMuon){
-            SQLiteDatabase sqLiteDatabase=dbhelper.getWritableDatabase();
-            ContentValues contentValues=new ContentValues();
-            contentValues.put("MATV",phieuMuon.getMatv());
-            contentValues.put("MATT",phieuMuon.getMatt());
-            contentValues.put("MASACH",phieuMuon.getMasach());
-            contentValues.put("NGAY",phieuMuon.getNgay());
-            contentValues.put("TRASACH",phieuMuon.getTrasach());
-            contentValues.put("TIENTHUE",phieuMuon.getTienthue());
+    // Phương thức để lấy một cuốn sách cụ thể bằng ID từ cơ sở dữ liệu
+    public Phieumuon getID(String id){
+        String sql = "select * from PHIEUMUON where MAPM=?";
+        ArrayList<Phieumuon> list = getALLPM(sql, id);
 
-            return sqLiteDatabase.update("PHIEUMUON", null,"MAPM=?", new String[]{phieuMuon.getMapm() + ""});
+        if (!list.isEmpty()) {
+            return list.get(0);
+        }
+        else {
+            // Trả về một giá trị LoaiSach mặc định hoặc tạo một đối tượng mới tùy ý
+            return new Phieumuon();
+        }
     }
+
+
+
+    public long insert(Phieumuon phieuMuon) {
+        SQLiteDatabase sqLiteDatabase = dbhelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("MATV", phieuMuon.getMatv());
+        contentValues.put("MATT", phieuMuon.getMatt());
+        contentValues.put("MASACH", phieuMuon.getMasach());
+        contentValues.put("NGAY", sdf.format(phieuMuon.getNgay()));
+        contentValues.put("TRASACH", phieuMuon.getTrasach());
+        contentValues.put("TIENTHUE", phieuMuon.getTienthue());
+
+        return sqLiteDatabase.insert("PHIEUMUON", null, contentValues);
+    }
+
+    public int update(Phieumuon phieuMuon) {
+        SQLiteDatabase sqLiteDatabase = dbhelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("MATV", phieuMuon.getMatv());
+        contentValues.put("MATT", phieuMuon.getMatt());
+        contentValues.put("MASACH", phieuMuon.getMasach());
+        contentValues.put("NGAY", sdf.format(phieuMuon.getNgay()));
+        contentValues.put("TRASACH", phieuMuon.getTrasach());
+        contentValues.put("TIENTHUE", phieuMuon.getTienthue());
+
+        return sqLiteDatabase.update("PHIEUMUON", contentValues, "MAPM=?", new String[]{phieuMuon.getMapm() + ""});
+
+    }
+
     public long delete(String mpm) {
         SQLiteDatabase database = dbhelper.getWritableDatabase();
         long check = database.delete("PHIEUMUON", "MAPM=?", new String[]{mpm});

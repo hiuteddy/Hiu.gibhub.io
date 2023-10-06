@@ -44,7 +44,6 @@ public class thanhvienDAO {
     public long add(Thanhvien tv) {
         SQLiteDatabase database = dBhelper.getWritableDatabase(); // Khởi tạo cơ sở dữ liệu ghi
         ContentValues values = new ContentValues();
-     //   values.put("MATV", tv.getMatv());
         values.put("HOTEN", tv.getHoten());
         values.put("NAMSINH", tv.getNamsinh());
         return database.insert("THANHVIEN", null, values); // Trả về ID của hàng được chèn
@@ -71,7 +70,7 @@ public class thanhvienDAO {
     }
 
     // Phương thức để lấy danh sách tất cả thành viên từ cơ sở dữ liệu (được đơn giản hóa)
-    public List<Thanhvien> getAll() {
+    public ArrayList<Thanhvien> getAll() {
         // Chuỗi SQL truy vấn để lấy tất cả dữ liệu từ bảng LOAISACH
         String sql = "SELECT * FROM THANHVIEN";
         return getALLTV(sql);
@@ -80,7 +79,7 @@ public class thanhvienDAO {
     // Lấy thông tin của một loại sách dựa trên mã loại
     public Thanhvien getID(String id) {
         String sql = "select * from THANHVIEN where MATV=?";
-        List<Thanhvien> list = getALLTV(sql, id);
+        ArrayList<Thanhvien> list = getALLTV(sql, id);
 
         if (!list.isEmpty()) {
             return list.get(0);

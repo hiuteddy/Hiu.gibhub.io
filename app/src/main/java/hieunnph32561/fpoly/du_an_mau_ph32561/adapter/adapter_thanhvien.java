@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,6 +77,58 @@ public class adapter_thanhvien extends RecyclerView.Adapter<adapter_thanhvien.Vi
                 Dialog dialog = builder.create();
                 dialog.show();
 
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                LayoutInflater inflater = LayoutInflater.from(context);
+                View view1 = inflater.inflate(R.layout.dialog_updatetv, null);
+                builder.setView(view1);
+                AlertDialog dialog = builder.create();
+
+
+                EditText edtht = view1.findViewById(R.id.ed_hotentvu);
+                EditText edtns = view1.findViewById(R.id.ed_namsinhu);
+
+                Button btnsave = view1.findViewById(R.id.btn_save_thanhvienu);
+                Button btnhuy = view1.findViewById(R.id.btn_huy_thanhvienu);
+
+                edtht.setText(list.get(position).getHoten());
+                edtns.setText(list.get(position).getNamsinh());
+
+                btnhuy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                btnsave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String ht=edtht.getText().toString();
+                        String ns=edtns.getText().toString();
+
+                        thanhVien.setHoten(ht);
+                        thanhVien.setNamsinh(ns);
+                        if(dao.udt(thanhVien)>0){
+                            list.clear();
+                            list.addAll(dao.getAll());
+                            notifyDataSetChanged();
+                            Toast.makeText(context, "update thanh cong", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(context, "update that bai", Toast.LENGTH_SHORT).show();
+                        }
+                        dialog.dismiss();
+
+                    }
+                });
+
+
+
+
+                dialog.show();
             }
         });
     }

@@ -92,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="Thêm"
+            android:text="Update"
             android:textColor="@android:color/white"
             android:background="@drawable/edittext_bg"
             android:backgroundTint="@color/design_default_color_primary_dark" />

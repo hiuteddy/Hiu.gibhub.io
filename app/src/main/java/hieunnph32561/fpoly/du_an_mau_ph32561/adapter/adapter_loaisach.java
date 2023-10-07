@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -80,10 +82,66 @@ public class adapter_loaisach extends RecyclerView.Adapter<adapter_loaisach.View
                 dialog.show();
             }
         });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                LayoutInflater inflater = LayoutInflater.from(context);
+                View view1 = inflater.inflate(R.layout.dialog_updatels, null);
+
+                EditText edtls = view1.findViewById(R.id.ed_tenloaisachu);
+                Button btnsave = view1.findViewById(R.id.btn_save_loaisachu);
+                Button btnhuy = view1.findViewById(R.id.btn_huy_loaisachu);
+
+                edtls.setText(list.get(position).getTenLoai());
+
+
+                builder.setView(view1);
+                AlertDialog dialog = builder.create();
+
+                btnsave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String ls = edtls.getText().toString();
+
+                        loaisach.setTenLoai(ls);
+
+                        long updateResult = dao.update(loaisach);
+
+                        if (updateResult > 0) {
+                            // If the update was successful, refresh the list and notify the adapter
+                            list.clear();
+                            list.addAll(dao.getAll());
+                            notifyDataSetChanged();
+                            Toast.makeText(context, "Update thành công", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // If the update failed, display an error message
+                            Toast.makeText(context, "Update thất bại", Toast.LENGTH_SHORT).show();
+                        }
+
+                        // Dismiss the dialog
+                        dialog.dismiss();
+                    }
+                });
+
+
+                btnhuy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+
+                dialog.show();
+
+            }
+        });
 
     }
+
     @Override
-    public int getItemCount () {
+    public int getItemCount() {
         return list.size();
     }
 

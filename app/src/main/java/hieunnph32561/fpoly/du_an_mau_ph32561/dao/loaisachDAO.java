@@ -22,24 +22,31 @@ public class loaisachDAO {
     }
 
 
-
-    public long insert(Loaisach s){
-        SQLiteDatabase database=dBhelper.getWritableDatabase();
-        ContentValues values=new ContentValues();
-        values.put("THELOAI",s.getTenLoai());
-        return database.insert("LOAISACH",null,values);
+    public long insert(Loaisach s) {
+        SQLiteDatabase database = dBhelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("THELOAI", s.getTenLoai());
+        return database.insert("LOAISACH", null, values);
     }
 
-    public long delete(int mssp){
-        SQLiteDatabase database=dBhelper.getWritableDatabase();
-        long check=database.delete("LOAISACH","MALOAI=?",new String[]{
+    public long delete(int mssp) {
+        SQLiteDatabase database = dBhelper.getWritableDatabase();
+        long check = database.delete("LOAISACH", "MALOAI=?", new String[]{
                 String.valueOf(mssp)
         });
-        return  check;
+        return check;
     }
 
+    public long update(Loaisach s) {
+        SQLiteDatabase database = dBhelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("THELOAI", s.getTenLoai());
+        return database.update("LOAISACH", values, "MALOAI=?", new String[]{
+                String.valueOf(s.getMaLoai())
+        });
+    }
 
-    public ArrayList<Loaisach> getALLSACH(String sql, String... selectionArgs) {
+        public ArrayList<Loaisach> getALLSACH(String sql, String... selectionArgs) {
         ArrayList<Loaisach> list = new ArrayList<>();
         SQLiteDatabase database = dBhelper.getReadableDatabase();
 
@@ -71,14 +78,13 @@ public class loaisachDAO {
     }
 
     // Lấy thông tin của một loại sách dựa trên mã loại
-    public Loaisach getID(String id){
+    public Loaisach getID(String id) {
         String sql = "select * from LOAISACH where MALOAI=?";
         ArrayList<Loaisach> list = getALLSACH(sql, id);
 
         if (!list.isEmpty()) {
             return list.get(0);
-        }
-        else {
+        } else {
             // Trả về một giá trị LoaiSach mặc định hoặc tạo một đối tượng mới tùy ý
             return new Loaisach();
         }

@@ -16,13 +16,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import hieunnph32561.fpoly.du_an_mau_ph32561.R;
 import hieunnph32561.fpoly.du_an_mau_ph32561.database.Dbhelper;
 import hieunnph32561.fpoly.du_an_mau_ph32561.nguoidung.Dang_Nhap;
 
 public class Doimatkhau extends Fragment {
-    private EditText oldPasswordEditText, newPasswordEditText, confirmPasswordEditText;
+    private EditText oldUsernameEditText, oldPasswordEditText, newPasswordEditText, confirmPasswordEditText;
     private Button changePasswordButton;
     private SQLiteDatabase sqLiteDatabase;
 
@@ -31,6 +30,7 @@ public class Doimatkhau extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_doi_matkhau, container, false);
 
+      //  oldUsernameEditText = view.findViewById(R.id.editUsername);
         oldPasswordEditText = view.findViewById(R.id.edit_current_password);
         newPasswordEditText = view.findViewById(R.id.edit_new_password);
         confirmPasswordEditText = view.findViewById(R.id.edit_confirm_password);
@@ -43,19 +43,20 @@ public class Doimatkhau extends Fragment {
         changePasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String oldUsername = oldUsernameEditText.getText().toString();
                 String oldPassword = oldPasswordEditText.getText().toString();
                 String newPassword = newPasswordEditText.getText().toString();
                 String confirmPassword = confirmPasswordEditText.getText().toString();
 
-                if (TextUtils.isEmpty(oldPassword) || TextUtils.isEmpty(newPassword) || TextUtils.isEmpty(confirmPassword)) {
+                if (TextUtils.isEmpty(oldUsername) || TextUtils.isEmpty(oldPassword) || TextUtils.isEmpty(newPassword) || TextUtils.isEmpty(confirmPassword)) {
                     Toast.makeText(getActivity(), "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 } else if (!newPassword.equals(confirmPassword)) {
                     Toast.makeText(getActivity(), "Mật khẩu mới và xác nhận mật khẩu không khớp", Toast.LENGTH_SHORT).show();
                 } else {
                     // Kiểm tra mật khẩu cũ có đúng không
-                    if (checkOldPassword(oldPassword)) {
+                    if (checkOldPassword(oldUsername, oldPassword)) {
                         // Mật khẩu cũ đúng, thay đổi mật khẩu mới
-                        changePassword(newPassword);
+                        changePassword(oldUsername, newPassword);
                     } else {
                         Toast.makeText(getActivity(), "Mật khẩu cũ không đúng", Toast.LENGTH_SHORT).show();
                     }
@@ -66,26 +67,23 @@ public class Doimatkhau extends Fragment {
         return view;
     }
 
-    private boolean checkOldPassword(String oldPassword) {
-        // Kiểm tra mật khẩu cũ trong cơ sở dữ liệu (điều này cần phải được điều chỉnh dựa trên cách bạn lưu mật khẩu)
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT MATKHAU FROM THUTHU WHERE MATT = ?", new String[]{oldPassword});
-        if (cursor.moveToFirst()) {
-            @SuppressLint("Range") String storedPassword = cursor.getString(cursor.getColumnIndex("MATKHAU"));
-            cursor.close();
-            return oldPassword.equals(storedPassword);
-        }
+    private boolean checkOldPassword(String username, String oldPassword) {
+        // Kiểm tra mật khẩu cũ trong cơ sở dữ liệu
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT MATKHAU FROM THUTHU WHERE MATT = ? AND MATKHAU = ?", new String[]{username, oldPassword});
+        boolean isPasswordCorrect = cursor.moveToFirst();
         cursor.close();
-        return false;
+        return isPasswordCorrect;
     }
 
-    private void changePassword(String newPassword) {
-        // Cập nhật mật khẩu mới vào cơ sở dữ liệu (điều này cần phải được điều chỉnh dựa trên cách bạn lưu mật khẩu)
+    private void changePassword(String username, String newPassword) {
+        // Cập nhật mật khẩu mới vào cơ sở dữ liệu
         ContentValues values = new ContentValues();
         values.put("MATKHAU", newPassword);
-        int rowsUpdated = sqLiteDatabase.update("THUTHU", values, "MATT = ?", new String[]{oldPasswordEditText.getText().toString()});
+        int rowsUpdated = sqLiteDatabase.update("THUTHU", values, "MATT = ?", new String[]{username});
         if (rowsUpdated > 0) {
             // Đổi mật khẩu thành công
             Toast.makeText(getActivity(), "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+            oldUsernameEditText.setText("");
             oldPasswordEditText.setText("");
             newPasswordEditText.setText("");
             confirmPasswordEditText.setText("");
@@ -93,7 +91,7 @@ public class Doimatkhau extends Fragment {
             startActivity(intent);
         } else {
             // Mật khẩu cũ không khớp
-            Toast.makeText(getActivity(), "Mật khẩu cũ không khớp", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Đổi mật khẩu thất bại", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -1,8 +1,6 @@
 package hieunnph32561.fpoly.du_an_mau_ph32561.Fragment;
 
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,11 +23,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 
 import hieunnph32561.fpoly.du_an_mau_ph32561.R;
 import hieunnph32561.fpoly.du_an_mau_ph32561.adapter.PhieuMuonClick;
@@ -94,7 +85,7 @@ public class QlPhieuMuon extends Fragment {
             public void onClick(Phieumuon phieumuonm) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 LayoutInflater inflater = LayoutInflater.from(getContext());
-                View view1 = inflater.inflate(R.layout.dialog_update, null);
+                View view1 = inflater.inflate(R.layout.dialog_updatepm, null);
 
                 // Khởi tạo các thành phần giao diện
                 Spinner spnts = view1.findViewById(R.id.spinertensachs);
@@ -204,7 +195,6 @@ public class QlPhieuMuon extends Fragment {
                         } else {
                             Toast.makeText(getContext(), "Update phiếu mượn thất bại", Toast.LENGTH_SHORT).show();
                         }
-
                         dialog.dismiss();
                     }
                 });
@@ -301,8 +291,10 @@ public class QlPhieuMuon extends Fragment {
                 // Gán giá trị Trasach dựa trên trạng thái CheckBox
                 if (cbk.isChecked()) {
                     phieuMuon.setTrasach(1);
+
                 } else {
                     phieuMuon.setTrasach(0);
+
                 }
 
                 // Lấy thông tin giá thuê từ đối tượng Sach

@@ -20,7 +20,7 @@
             android:name=".nguoidung.Dang_Nhap"
             android:exported="false" />
         <activity
-            android:name=".nguoidung.MainActivity"
+            android:name=".nguoidung.Manhinhchao"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

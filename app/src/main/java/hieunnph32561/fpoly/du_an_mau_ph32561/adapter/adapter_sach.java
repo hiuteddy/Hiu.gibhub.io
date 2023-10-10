@@ -2,11 +2,15 @@ package hieunnph32561.fpoly.du_an_mau_ph32561.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,14 +27,17 @@ import hieunnph32561.fpoly.du_an_mau_ph32561.dao.loaisachDAO;
 import hieunnph32561.fpoly.du_an_mau_ph32561.dao.sachDAO;
 import hieunnph32561.fpoly.du_an_mau_ph32561.model.Loaisach;
 import hieunnph32561.fpoly.du_an_mau_ph32561.model.Sach;
+import hieunnph32561.fpoly.du_an_mau_ph32561.model.Thanhvien;
 
 public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsanpham> {
 
      Context context;
      ArrayList<Sach> list;
      sachDAO dao;
-     loaisachDAO daoo;
+    loaisachDAO daoo;
     Loaisach loaisach;
+    ArrayList<Loaisach> listLS = new ArrayList<>();
+
 
 
     public adapter_sach(Context context, ArrayList<Sach> list) {
@@ -67,8 +74,6 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
                 // Lấy đối tượng khóa học tương ứng
-                Sach sp = list.get(position);
-                // Xây dựng hộp thoại xác nhận xóa
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Xác nhận xóa");
                 builder.setMessage("Bạn có chắc chắn muốn xóa sản phẩm này?");
@@ -76,11 +81,10 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Xóa khóa học khỏi cơ sở dữ liệu
-                        dao = new sachDAO(context);
-                        long result = dao.delete(sp.getMaSach());
-                        if (result > 0) {
+                        if (dao.delete(sach.getMaSach()) > 0) {
                             Toast.makeText(context, "Xóa thành công", Toast.LENGTH_SHORT).show();
-                            list.remove(position); // Xóa đối tượng khóa học khỏi danh sách
+                            list.clear();
+                            list.addAll(dao.getAll());
                             notifyDataSetChanged(); // Cập nhật lại dữ liệu trên RecyclerView
                         } else {
                             Toast.makeText(context, "Xóa thất bại", Toast.LENGTH_SHORT).show();
@@ -100,7 +104,60 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
 
             }
         });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                View view1 = LayoutInflater.from(context).inflate(R.layout.dialog_updates, null);
+                builder.setView(view1);
+                Dialog dialog = builder.create();
+                dialog.show();
 
+                EditText edtTenSach = view1.findViewById(R.id.edittsu);
+                EditText edtGia = view1.findViewById(R.id.editgiasachu);
+                Spinner spnLoaiSach = view1.findViewById(R.id.spineru);
+                Button btnXacnhan = view1.findViewById(R.id.buttonAddsachu);
+                Button btnHuy = view1.findViewById(R.id.buttonhuysachu);
+
+                listLS = daoo.getAll();
+                ArrayAdapter arrayAdapte = new ArrayAdapter(context, android.R.layout.simple_list_item_1, listLS);
+                spnLoaiSach.setAdapter(arrayAdapte);
+
+                edtTenSach.setText(list.get(position).getTenSach());
+                edtGia.setText(String.valueOf(list.get(position).getGiaThue()));
+
+
+                btnXacnhan.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Sach sach = list.get(position);
+
+
+                        Loaisach lsach = (Loaisach) spnLoaiSach.getSelectedItem();
+                        sach.setMaLoai(lsach.getMaLoai());
+                        sach.setTenSach(edtTenSach.getText().toString());
+                        sach.setGiaThue(Integer.parseInt((edtGia.getText().toString())));
+
+                        // Thêm phiếu mượn vào cơ sở dữ liệu
+                        if (dao.upate(sach) > 0) {
+                            Toast.makeText(context, "Update sách thành công", Toast.LENGTH_SHORT).show();
+                            list.clear();
+                            list.addAll(dao.getAll());
+                            notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(context, "update sách thất bại", Toast.LENGTH_SHORT).show();
+                        }
+                        dialog.dismiss();
+                    }
+                });
+                btnHuy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
 
     }
 

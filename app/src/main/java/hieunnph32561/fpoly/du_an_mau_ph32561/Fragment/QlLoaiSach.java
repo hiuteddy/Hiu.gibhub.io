@@ -1,37 +1,28 @@
 package hieunnph32561.fpoly.du_an_mau_ph32561.Fragment;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import hieunnph32561.fpoly.du_an_mau_ph32561.R;
 import hieunnph32561.fpoly.du_an_mau_ph32561.adapter.adapter_loaisach;
-import hieunnph32561.fpoly.du_an_mau_ph32561.adapter.adapter_sach;
 import hieunnph32561.fpoly.du_an_mau_ph32561.dao.loaisachDAO;
-import hieunnph32561.fpoly.du_an_mau_ph32561.dao.sachDAO;
 import hieunnph32561.fpoly.du_an_mau_ph32561.model.Loaisach;
-import hieunnph32561.fpoly.du_an_mau_ph32561.model.Loaisach;
-import hieunnph32561.fpoly.du_an_mau_ph32561.model.Sach;
 
 public class QlLoaiSach extends Fragment {
 
@@ -67,7 +58,7 @@ public class QlLoaiSach extends Fragment {
     public  void ThemLoaiSach(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LayoutInflater layoutInflater = getLayoutInflater();
-        View view = layoutInflater.inflate(R.layout.dialog_loaisach, null);
+        View view = layoutInflater.inflate(R.layout.dialog_themloaisach, null);
         builder.setView(view);
         AlertDialog dialog = builder.create();
         dialog.show();

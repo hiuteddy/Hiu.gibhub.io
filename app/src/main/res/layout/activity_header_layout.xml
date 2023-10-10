@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center_horizontal"
-        android:text="Hieu Nhu"
+        android:text="Welecom"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
 
@@ -27,11 +27,10 @@
         android:id="@+id/textViewEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="hiuteddy@gmail.com"
+        android:layout_marginTop="4dp"
+        android:gravity="center_horizontal"
         android:textColor="@android:color/white"
         android:textSize="14sp"
-        android:textStyle="italic"
-        android:layout_marginTop="4dp"
-        android:gravity="center_horizontal" />
+        android:textStyle="italic" />
 
 </LinearLayout>

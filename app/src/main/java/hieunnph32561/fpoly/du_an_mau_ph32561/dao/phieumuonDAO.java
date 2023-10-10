@@ -35,7 +35,7 @@ public class phieumuonDAO {
             try {
                 @SuppressLint("Range") Date ngay = sdf.parse(cursor.getString(cursor.getColumnIndex("NGAY")));
 
-               @SuppressLint("Range") Phieumuon pm = new Phieumuon(
+           @SuppressLint("Range") Phieumuon pm = new Phieumuon(
                         cursor.getInt(cursor.getColumnIndex("MAPM")),
                         cursor.getInt(cursor.getColumnIndex("MATV")),
                         cursor.getString(cursor.getColumnIndex("MATT")),
@@ -55,23 +55,8 @@ public class phieumuonDAO {
     }
     public ArrayList<Phieumuon> getAll() {
         String sql = "SELECT * FROM PHIEUMUON";
-        return (ArrayList<Phieumuon>) getALLPM(sql); // Gọi getALLSACH với một truy vấn SQL đã được định nghĩa trước
+        return (ArrayList<Phieumuon>) getALLPM(sql);
     }
-
-    // Phương thức để lấy một cuốn sách cụ thể bằng ID từ cơ sở dữ liệu
-    public Phieumuon getID(String id){
-        String sql = "select * from PHIEUMUON where MAPM=?";
-        ArrayList<Phieumuon> list = getALLPM(sql, id);
-
-        if (!list.isEmpty()) {
-            return list.get(0);
-        }
-        else {
-            // Trả về một giá trị LoaiSach mặc định hoặc tạo một đối tượng mới tùy ý
-            return new Phieumuon();
-        }
-    }
-
 
 
     public long insert(Phieumuon phieuMuon) {

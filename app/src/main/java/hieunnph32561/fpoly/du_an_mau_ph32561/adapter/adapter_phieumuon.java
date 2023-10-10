@@ -63,7 +63,6 @@ public class adapter_phieumuon extends RecyclerView.Adapter<adapter_phieumuon.Vi
         return new Viewhodelpm(view);
     }
 
-    // Trong adapter_phieumuon.java
 
 
     @Override
@@ -71,7 +70,6 @@ public class adapter_phieumuon extends RecyclerView.Adapter<adapter_phieumuon.Vi
         // Tạo đối tượng thanhvienDAO để tương tác với bảng thành viên trong cơ sở dữ liệu
         dao = new thanhvienDAO(context.getApplicationContext());
 
-// Tạo đối tượng sachDAO để tương tác với bảng sách trong cơ sở dữ liệu
         daoo = new sachDAO(context.getApplicationContext());
 
 // Lấy đối tượng Phieumuon từ danh sách tại vị trí (position) cụ thể
@@ -85,13 +83,13 @@ public class adapter_phieumuon extends RecyclerView.Adapter<adapter_phieumuon.Vi
         holder.txtmaphieu.setText(String.valueOf(list.get(position).getMapm()));
         holder.txtthanhvien.setText(String.valueOf(thanhvien.getHoten()));
         holder.txttensach.setText(String.valueOf(sach.getTenSach()));
-        holder.txttienthue.setText(String.valueOf(sach.getGiaThue()));
+        holder.txttienthue.setText(String.valueOf(phieumuon.getTienthue()));
         holder.txtngaythue.setText(sdf.format(phieumuon.getNgay()));
         int trangthai = list.get(position).getTrasach();
 
 // Kiểm tra và hiển thị trạng thái dựa trên giá trị trangthai: 1 - đã trả, 0 - chưa trả
         if (trangthai == 1) {
-            holder.txttrangthai.setText("Đã trả"); // Hiển thị "Đã trả" nếu trạng thái là 1
+            holder.txttrangthai.setText("Đã trả");
         } else {
             holder.txttrangthai.setText("Chưa trả");
         }

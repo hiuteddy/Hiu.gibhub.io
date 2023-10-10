@@ -21,12 +21,12 @@
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.532" />
+        app:layout_constraintVertical_bias="0.551" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="500dp"
         android:layout_marginBottom="4dp"
         android:background="@drawable/bgr_doimk"
         android:orientation="vertical"
@@ -90,13 +90,13 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/chkb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:textColor="#000000"
             android:backgroundTint="@color/black"
-            android:text="Remember password" />
+            android:text="Remember password"
+            android:textColor="#000000" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogin"

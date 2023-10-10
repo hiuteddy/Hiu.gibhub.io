@@ -106,20 +106,16 @@ public class adapter_loaisach extends RecyclerView.Adapter<adapter_loaisach.View
 
                         loaisach.setTenLoai(ls);
 
-                        long updateResult = dao.update(loaisach);
 
-                        if (updateResult > 0) {
-                            // If the update was successful, refresh the list and notify the adapter
+                        if ( dao.update(loaisach) > 0) {
                             list.clear();
                             list.addAll(dao.getAll());
                             notifyDataSetChanged();
                             Toast.makeText(context, "Update thành công", Toast.LENGTH_SHORT).show();
                         } else {
-                            // If the update failed, display an error message
                             Toast.makeText(context, "Update thất bại", Toast.LENGTH_SHORT).show();
                         }
 
-                        // Dismiss the dialog
                         dialog.dismiss();
                     }
                 });

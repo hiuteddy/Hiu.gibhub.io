@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class Dbhelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Duanmau";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
 
     public Dbhelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -62,44 +62,44 @@ public class Dbhelper extends SQLiteOpenHelper {
         //---Thêm dữ liệu vào bảng
 
         //Thêm bảng Thủ Thư
-        String insertThuthu = "INSERT INTO THUTHU (MATT, HOTEN, MATKHAU) VALUES " +
-                "('TT001', 'Nguyen Van A', 'password123'), " +
-                "('TT002', 'Tran Thi B', 'abc123'), " +
-                "('TT003', 'Le Van C', 'xyz987')";
-        db.execSQL(insertThuthu);
-
-        //Thêm bảng sách
-
-        String insertSach = "INSERT INTO SACH (TENSACH, GIATHUE, MALOAI) VALUES " +
-                "('Doremon', 45000, 2), " +
-                "('Snack', 8000, 1), " +
-                "('Anime', 25000, 2)";
-        db.execSQL(insertSach);
-
-        //Thêm bảng loại sách
-
-        String insertLoaiSach = "INSERT INTO LOAISACH (THELOAI) VALUES " +
-                "( 'Tình yêu'), " +
-                "( 'Tội phạm'), " +
-                "( 'Hài')";
-        db.execSQL(insertLoaiSach);
-
-        //Thêm bảng thành viên
-
-        String insertThanhVien1 = "INSERT INTO THANHVIEN (MATV, HOTEN, NAMSINH) VALUES " +
-                "(1, 'Nguyen Van X', 1990)," +
-                "(2, 'Tran Thi Y', 1985)," +
-                "(3, 'Le Van Z', 1995)";
-        db.execSQL(insertThanhVien1);
-
-        //Thêm bảng phiếu mượn
-
-        String insertPhieuMuon1 = "INSERT INTO PHIEUMUON (MATV, MATT, MASACH, NGAY, TRASACH, TIENTHUE) VALUES " +
-                "(1, 'TT001', 1, '2023-09-27', 0, 30000)," +
-                "(2, 'TT002', 2, '2023-09-28', 0, 40000)," +
-                "(3, 'TT003', 3, '2023-09-29', 0, 50000)";
-
-        db.execSQL(insertPhieuMuon1);
+//        String insertThuthu = "INSERT INTO THUTHU (MATT, HOTEN, MATKHAU) VALUES " +
+//                "('TT001', 'Nguyen Van A', 'password123'), " +
+//                "('TT002', 'Tran Thi B', 'abc123'), " +
+//                "('TT003', 'Le Van C', 'xyz987')";
+//        db.execSQL(insertThuthu);
+//
+//        //Thêm bảng sách
+//
+//        String insertSach = "INSERT INTO SACH (TENSACH, GIATHUE, MALOAI) VALUES " +
+//                "('Doremon', 45000, 2), " +
+//                "('Snack', 8000, 1), " +
+//                "('Anime', 25000, 2)";
+//        db.execSQL(insertSach);
+//
+//        //Thêm bảng loại sách
+//
+//        String insertLoaiSach = "INSERT INTO LOAISACH (THELOAI) VALUES " +
+//                "( 'Tình yêu'), " +
+//                "( 'Tội phạm'), " +
+//                "( 'Hài')";
+//        db.execSQL(insertLoaiSach);
+//
+//        //Thêm bảng thành viên
+//
+//        String insertThanhVien1 = "INSERT INTO THANHVIEN (MATV, HOTEN, NAMSINH) VALUES " +
+//                "(1, 'Nguyen Van X', 1990)," +
+//                "(2, 'Tran Thi Y', 1985)," +
+//                "(3, 'Le Van Z', 1995)";
+//        db.execSQL(insertThanhVien1);
+//
+//        //Thêm bảng phiếu mượn
+//
+//        String insertPhieuMuon1 = "INSERT INTO PHIEUMUON (MATV, MATT, MASACH, NGAY, TRASACH, TIENTHUE) VALUES " +
+//                "(1, 'TT001', 1, '2023-09-27', 0, 30000)," +
+//                "(2, 'TT002', 2, '2023-09-28', 0, 40000)," +
+//                "(3, 'TT003', 3, '2023-09-29', 0, 50000)";
+//
+//        db.execSQL(insertPhieuMuon1);
 
     }
 

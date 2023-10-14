@@ -62,7 +62,7 @@ public class QLSach extends Fragment {
         fabAddSach.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            openDiaLog();
+                openDiaLog();
             }
         });
         return view;
@@ -91,26 +91,30 @@ public class QLSach extends Fragment {
         btnXacnhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int gia = Integer.parseInt(edtGia.getText().toString());
-                String tenSach = edtTenSach.getText().toString();
-                Loaisach loaiSach = (Loaisach) spnLoaiSach.getSelectedItem();
-                int maLoai = loaiSach.getMaLoai(); // Giả sử bạn có một phương thức getMaLoai() để lấy mã loại sách
+                try {
+                    int gia = Integer.parseInt(edtGia.getText().toString());
+                    String tenSach = edtTenSach.getText().toString();
+                    Loaisach loaiSach = (Loaisach) spnLoaiSach.getSelectedItem();
+                    int maLoai = loaiSach.getMaLoai(); // Giả sử bạn có một phương thức getMaLoai() để lấy mã loại sách
 
-                Sach sach=new Sach(maLoai,tenSach,gia,maLoai);
-                if (edtTenSach.getText().toString().isEmpty() || edtGia.getText().toString().isEmpty()) {
-                    Toast.makeText(getContext(), "Vui lòng nhập thông tin", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                    Sach sach = new Sach(maLoai, tenSach, gia, maLoai);
+                    if (edtTenSach.getText().toString().isEmpty() || edtGia.getText().toString().isEmpty()) {
+                        Toast.makeText(getContext(), "Vui lòng nhập thông tin", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                if (sachDAO.insert(sach) > 0) {
-                    Toast.makeText(getContext(), "Thêm sách thành công", Toast.LENGTH_SHORT).show();
-                    list = sachDAO.getAll();
-                    sachAdapter = new adapter_sach(getContext(), list);
-                    rcvSach.setAdapter(sachAdapter);
-                    sachAdapter.notifyDataSetChanged(); // Cập nhật giao diện
-                    dialog.dismiss(); // Đóng hộp thoại sau khi thêm sách thành công
-                } else {
-                    Toast.makeText(getContext(), "Thêm sách thất bại", Toast.LENGTH_SHORT).show();
+                    if (sachDAO.insert(sach) > 0) {
+                        Toast.makeText(getContext(), "Thêm sách thành công", Toast.LENGTH_SHORT).show();
+                        list.clear();
+                        list.addAll(sachDAO.getAll());
+                        sachAdapter.notifyDataSetChanged();
+                        dialog.dismiss(); // Đóng hộp thoại sau khi thêm sách thành công
+                    } else {
+                        Toast.makeText(getContext(), "Thêm sách thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (NumberFormatException e) {
+                    // Xử lý khi xảy ra lỗi chuyển đổi từ chuỗi sang số
+                    Toast.makeText(getContext(), "Lỗi: Giá phải là số nguyên", Toast.LENGTH_SHORT).show();
                 }
             }
         });

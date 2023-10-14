@@ -42,7 +42,7 @@ public class adapter_thanhvien extends RecyclerView.Adapter<adapter_thanhvien.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        dao=new thanhvienDAO(context.getApplicationContext());
+        dao = new thanhvienDAO(context.getApplicationContext());
 
         Thanhvien thanhVien = list.get(position);
 
@@ -58,7 +58,7 @@ public class adapter_thanhvien extends RecyclerView.Adapter<adapter_thanhvien.Vi
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if (dao.delete(thanhVien.getMatv())>0) {
+                                if (dao.delete(thanhVien.getMatv()) > 0) {
                                     Toast.makeText(context, "Xóa thành công", Toast.LENGTH_SHORT).show();
                                     list.clear();
                                     list.addAll(dao.getAll());
@@ -107,25 +107,26 @@ public class adapter_thanhvien extends RecyclerView.Adapter<adapter_thanhvien.Vi
                 btnsave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String ht=edtht.getText().toString();
-                        String ns=edtns.getText().toString();
 
-                        thanhVien.setHoten(ht);
-                        thanhVien.setNamsinh(ns);
-                        if(dao.udt(thanhVien)>0){
-                            list.clear();
-                            list.addAll(dao.getAll());
-                            notifyDataSetChanged();
-                            Toast.makeText(context, "update thanh cong", Toast.LENGTH_SHORT).show();
-                        }else {
-                            Toast.makeText(context, "update that bai", Toast.LENGTH_SHORT).show();
-                        }
+                            String ht = edtht.getText().toString();
+                            String ns = edtns.getText().toString();
+
+                            thanhVien.setHoten(ht);
+                            thanhVien.setNamsinh(ns);
+                            if (dao.udt(thanhVien) > 0) {
+                                list.clear();
+                                list.addAll(dao.getAll());
+                                notifyDataSetChanged();
+                                Toast.makeText(context, "update thanh cong", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context, "update that bai", Toast.LENGTH_SHORT).show();
+                            }
+
+
                         dialog.dismiss();
 
                     }
                 });
-
-
 
 
                 dialog.show();
@@ -147,7 +148,7 @@ public class adapter_thanhvien extends RecyclerView.Adapter<adapter_thanhvien.Vi
             tvMaTV = itemView.findViewById(R.id.tv_maTV);
             tvHoTen = itemView.findViewById(R.id.tv_hotenTV);
             tvNamSinh = itemView.findViewById(R.id.tv_namsinh);
-            imageView=itemView.findViewById(R.id.img_delete_thanhvien);
+            imageView = itemView.findViewById(R.id.img_delete_thanhvien);
         }
     }
 }

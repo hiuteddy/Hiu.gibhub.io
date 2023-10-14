@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,8 +91,12 @@ public class adapter_phieumuon extends RecyclerView.Adapter<adapter_phieumuon.Vi
 // Kiểm tra và hiển thị trạng thái dựa trên giá trị trangthai: 1 - đã trả, 0 - chưa trả
         if (trangthai == 1) {
             holder.txttrangthai.setText("Đã trả");
+            holder.txttrangthai.setTextColor(Color.RED);
         } else {
             holder.txttrangthai.setText("Chưa trả");
+            holder.txttrangthai.setTextColor(Color.BLUE);
+
+
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -31,13 +31,12 @@ import hieunnph32561.fpoly.du_an_mau_ph32561.model.Thanhvien;
 
 public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsanpham> {
 
-     Context context;
-     ArrayList<Sach> list;
-     sachDAO dao;
+    Context context;
+    ArrayList<Sach> list;
+    sachDAO dao;
     loaisachDAO daoo;
     Loaisach loaisach;
     ArrayList<Loaisach> listLS = new ArrayList<>();
-
 
 
     public adapter_sach(Context context, ArrayList<Sach> list) {
@@ -65,7 +64,7 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
 
         holder.Masach.setText("" + sach.getMaSach());
         holder.tensach.setText("" + sach.getTenSach());
-        holder.theloai.setText( loaisach.getTenLoai()); // Lấy tên thể loại sách từ đối tượng Loaisach
+        holder.theloai.setText(loaisach.getTenLoai()); // Lấy tên thể loại sách từ đối tượng Loaisach
         holder.giasach.setText("" + sach.getGiaThue());
 
 
@@ -126,26 +125,45 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
                 edtTenSach.setText(list.get(position).getTenSach());
                 edtGia.setText(String.valueOf(list.get(position).getGiaThue()));
 
+                int vt_sach = -1;
+
+                for (int i = 0; i < listLS.size(); i++) {
+                    if (sach.getMaLoai() == (listLS.get(i).getMaLoai())) {
+                        vt_sach = i;
+                        break;
+                    }
+
+                }
+                spnLoaiSach.setSelection(vt_sach);
+
 
                 btnXacnhan.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Sach sach = list.get(position);
+                        try {
+                            Loaisach lsach = (Loaisach) spnLoaiSach.getSelectedItem();
+                            sach.setMaLoai(lsach.getMaLoai());
+                            sach.setTenSach(edtTenSach.getText().toString());
+                            sach.setGiaThue(Integer.parseInt((edtGia.getText().toString())));
+                            if (edtTenSach.getText().toString().isEmpty() || edtGia.getText().toString().isEmpty()) {
+                                Toast.makeText(context, "Vui lòng nhập thông tin", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
 
-
-                        Loaisach lsach = (Loaisach) spnLoaiSach.getSelectedItem();
-                        sach.setMaLoai(lsach.getMaLoai());
-                        sach.setTenSach(edtTenSach.getText().toString());
-                        sach.setGiaThue(Integer.parseInt((edtGia.getText().toString())));
-
-                        // Thêm phiếu mượn vào cơ sở dữ liệu
-                        if (dao.upate(sach) > 0) {
-                            Toast.makeText(context, "Update sách thành công", Toast.LENGTH_SHORT).show();
-                            list.clear();
-                            list.addAll(dao.getAll());
-                            notifyDataSetChanged();
-                        } else {
-                            Toast.makeText(context, "update sách thất bại", Toast.LENGTH_SHORT).show();
+                            // Thêm phiếu mượn vào cơ sở dữ liệu
+                            if (dao.upate(sach) > 0) {
+                                Toast.makeText(context, "Update sách thành công", Toast.LENGTH_SHORT).show();
+                                list.clear();
+                                list.addAll(dao.getAll());
+                                notifyDataSetChanged();
+                            } else {
+                                Toast.makeText(context, "update sách thất bại", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (NumberFormatException e) {
+                            // Xử lý khi xảy ra lỗi chuyển đổi từ chuỗi sang số
+                            Toast.makeText(context, "Lỗi: Giá phải là số nguyên", Toast.LENGTH_SHORT).show();
+                            return;
                         }
                         dialog.dismiss();
                     }
@@ -170,7 +188,7 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
 
     public static class ViewHodelsanpham extends RecyclerView.ViewHolder {
         TextView Masach, tensach, giasach, theloai;
-        ImageView  txtdelete;
+        ImageView txtdelete;
 
         public ViewHodelsanpham(@NonNull View itemView) {
             super(itemView);

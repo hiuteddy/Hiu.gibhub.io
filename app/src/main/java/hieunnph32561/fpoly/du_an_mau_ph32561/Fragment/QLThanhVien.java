@@ -31,7 +31,7 @@ import hieunnph32561.fpoly.du_an_mau_ph32561.model.Thanhvien;
 public class QLThanhVien extends Fragment {
 
     RecyclerView recyclerView;
-    private ArrayList<Thanhvien> list=new ArrayList<>();
+    private ArrayList<Thanhvien> list = new ArrayList<>();
     adapter_thanhvien adapterThanhvien;
     thanhvienDAO tvdao;
     Context context;
@@ -71,7 +71,7 @@ public class QLThanhVien extends Fragment {
         builder.setView(view);
         AlertDialog dialog = builder.create();
         dialog.show();
-       // EditText edtmtv = view.findViewById(R.id.ed_matv);
+        // EditText edtmtv = view.findViewById(R.id.ed_matv);
         EditText edtTentv = view.findViewById(R.id.ed_hotentv);
         EditText edtns = view.findViewById(R.id.ed_namsinh);
 
@@ -81,26 +81,29 @@ public class QLThanhVien extends Fragment {
         btnXacnhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String edtTentvvv = edtTentv.getText().toString();
-                String edtnss = edtns.getText().toString();
-                Thanhvien tv = new Thanhvien( edtTentvvv, edtnss);
-                if (edtTentvvv.length() == 0) {
-                    Toast.makeText(getContext(), "Vui lòng nhập thông tin", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (tvdao.add(tv) > 0) {
-                        Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
-                        list = tvdao.getAll();
-                        adapterThanhvien = new adapter_thanhvien(context, (ArrayList<Thanhvien>) list);
-
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-                        recyclerView.setLayoutManager(linearLayoutManager);
-                        recyclerView.setAdapter(adapterThanhvien);
-                        dialog.dismiss();
+                try {
+                    String edtTentvvv = edtTentv.getText().toString();
+                    String edtnss = edtns.getText().toString();
+                    Thanhvien tv = new Thanhvien(edtTentvvv, edtnss);
+                    if (edtTentvvv.length() == 0) {
+                        Toast.makeText(getContext(), "Vui lòng nhập thông tin", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(getContext(), "Thêm thất bại", Toast.LENGTH_SHORT).show();
+                        if (tvdao.add(tv) > 0) {
+                            Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
+                            list.clear();
+                            list.addAll(tvdao.getAll());
+                            adapterThanhvien.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(getContext(), "Thêm thất bại", Toast.LENGTH_SHORT).show();
+                        }
                     }
+                    } catch(NumberFormatException e){
+                        Toast.makeText(context, "Năm sinh phải là số", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                dialog.dismiss();
                 }
-            }
+
         });
         btnHuy.setOnClickListener(new View.OnClickListener() {
             @Override

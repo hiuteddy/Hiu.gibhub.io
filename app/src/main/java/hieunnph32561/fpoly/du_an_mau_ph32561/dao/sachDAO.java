@@ -30,6 +30,7 @@ public class sachDAO {
         values.put("TENSACH", s.getTenSach());
         values.put("GIATHUE", s.getGiaThue());
         values.put("MALOAI", s.getMaLoai());
+        values.put("NAMXB", s.getNamXb());
         return database.insert("SACH", null, values); // Trả về ID của hàng được chèn
     }
 
@@ -40,6 +41,7 @@ public class sachDAO {
         values.put("TENSACH", s.getTenSach());
         values.put("GIATHUE", s.getGiaThue());
         values.put("MALOAI", s.getMaLoai());
+        values.put("NAMXB", s.getNamXb());
         return database.update("SACH", values, "MASACH=?", new String[]{s.getMaSach() + ""});
     }
 
@@ -62,7 +64,9 @@ public class sachDAO {
                     cursor.getInt(cursor.getColumnIndex("MASACH")),
                     cursor.getString(cursor.getColumnIndex("TENSACH")),
                     cursor.getInt(cursor.getColumnIndex("GIATHUE")),
-                    cursor.getInt(cursor.getColumnIndex("MALOAI"))
+                    cursor.getInt(cursor.getColumnIndex("MALOAI")),
+                    cursor.getInt(cursor.getColumnIndex("NAMXB"))
+
                     );
             list.add(s);
         }

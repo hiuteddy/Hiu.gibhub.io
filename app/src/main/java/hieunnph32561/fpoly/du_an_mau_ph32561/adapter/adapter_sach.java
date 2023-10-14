@@ -66,6 +66,8 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
         holder.tensach.setText("" + sach.getTenSach());
         holder.theloai.setText(loaisach.getTenLoai()); // Lấy tên thể loại sách từ đối tượng Loaisach
         holder.giasach.setText("" + sach.getGiaThue());
+        holder.namxb.setText(""+sach.getNamXb());
+
 
 
         holder.txtdelete.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +116,8 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
 
                 EditText edtTenSach = view1.findViewById(R.id.edittsu);
                 EditText edtGia = view1.findViewById(R.id.editgiasachu);
+                EditText edtnxb = view1.findViewById(R.id.editnamxbu);
+
                 Spinner spnLoaiSach = view1.findViewById(R.id.spineru);
                 Button btnXacnhan = view1.findViewById(R.id.buttonAddsachu);
                 Button btnHuy = view1.findViewById(R.id.buttonhuysachu);
@@ -124,6 +128,8 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
 
                 edtTenSach.setText(list.get(position).getTenSach());
                 edtGia.setText(String.valueOf(list.get(position).getGiaThue()));
+                edtnxb.setText(String.valueOf(list.get(position).getNamXb()));
+
 
                 int vt_sach = -1;
 
@@ -141,15 +147,17 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
                     @Override
                     public void onClick(View view) {
                         Sach sach = list.get(position);
+                        if (edtTenSach.getText().toString().isEmpty() || edtGia.getText().toString().isEmpty()||edtnxb.getText().toString().isEmpty()) {
+                            Toast.makeText(context, "Vui lòng nhập thông tin", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         try {
                             Loaisach lsach = (Loaisach) spnLoaiSach.getSelectedItem();
                             sach.setMaLoai(lsach.getMaLoai());
                             sach.setTenSach(edtTenSach.getText().toString());
                             sach.setGiaThue(Integer.parseInt((edtGia.getText().toString())));
-                            if (edtTenSach.getText().toString().isEmpty() || edtGia.getText().toString().isEmpty()) {
-                                Toast.makeText(context, "Vui lòng nhập thông tin", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
+                            sach.setNamXb(Integer.parseInt((edtnxb.getText().toString())));
+
 
                             // Thêm phiếu mượn vào cơ sở dữ liệu
                             if (dao.upate(sach) > 0) {
@@ -162,7 +170,7 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
                             }
                         } catch (NumberFormatException e) {
                             // Xử lý khi xảy ra lỗi chuyển đổi từ chuỗi sang số
-                            Toast.makeText(context, "Lỗi: Giá phải là số nguyên", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Lỗi: Giá và nhà xuất bản phải là số nguyên", Toast.LENGTH_SHORT).show();
                             return;
                         }
                         dialog.dismiss();
@@ -187,7 +195,7 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
 
 
     public static class ViewHodelsanpham extends RecyclerView.ViewHolder {
-        TextView Masach, tensach, giasach, theloai;
+        TextView Masach, tensach, giasach, theloai,namxb;
         ImageView txtdelete;
 
         public ViewHodelsanpham(@NonNull View itemView) {
@@ -196,7 +204,9 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
             tensach = itemView.findViewById(R.id.txttensach);
             giasach = itemView.findViewById(R.id.txtgiasach);
             theloai = itemView.findViewById(R.id.txttheloai);
+            namxb = itemView.findViewById(R.id.txtnamxb);
             txtdelete = itemView.findViewById(R.id.imageViewdl);
+
 
 
         }

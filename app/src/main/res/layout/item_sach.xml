@@ -92,6 +92,24 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Năm xuất bản: "
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtnamxb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp" />
+
+        </LinearLayout>
 
 
     </LinearLayout>

@@ -5,15 +5,25 @@ public class Sach {
     private String tenSach;
     private int giaThue;
     private int maLoai;
+    private int namXb;
 
     public Sach() {
     }
 
-    public Sach(int maSach, String tenSach, int giaThue, int maLoai) {
+    public Sach(int maSach, String tenSach, int giaThue, int maLoai,int namXb) {
         this.maSach = maSach;
         this.tenSach = tenSach;
         this.giaThue = giaThue;
         this.maLoai = maLoai;
+        this.namXb=namXb;
+    }
+
+    public int getNamXb() {
+        return namXb;
+    }
+
+    public void setNamXb(int namXb) {
+        this.namXb = namXb;
     }
 
     public int getMaSach() {

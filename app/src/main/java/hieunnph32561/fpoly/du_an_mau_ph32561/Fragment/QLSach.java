@@ -80,6 +80,8 @@ public class QLSach extends Fragment {
 
         EditText edtTenSach = view1.findViewById(R.id.editts);
         EditText edtGia = view1.findViewById(R.id.editgiasach);
+        EditText edtnxb = view1.findViewById(R.id.editnamxb);
+
         Spinner spnLoaiSach = view1.findViewById(R.id.spiner);
         Button btnXacnhan = view1.findViewById(R.id.buttonAddsach);
         Button btnHuy = view1.findViewById(R.id.buttonhuysach);
@@ -91,17 +93,20 @@ public class QLSach extends Fragment {
         btnXacnhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (edtTenSach.getText().toString().isEmpty() || edtGia.getText().toString().isEmpty()|| edtnxb.getText().toString().isEmpty()) {
+                    Toast.makeText(getContext(), "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 try {
                     int gia = Integer.parseInt(edtGia.getText().toString());
                     String tenSach = edtTenSach.getText().toString();
+                    int nxb = Integer.parseInt(edtnxb.getText().toString());
+
                     Loaisach loaiSach = (Loaisach) spnLoaiSach.getSelectedItem();
                     int maLoai = loaiSach.getMaLoai(); // Giả sử bạn có một phương thức getMaLoai() để lấy mã loại sách
 
-                    Sach sach = new Sach(maLoai, tenSach, gia, maLoai);
-                    if (edtTenSach.getText().toString().isEmpty() || edtGia.getText().toString().isEmpty()) {
-                        Toast.makeText(getContext(), "Vui lòng nhập thông tin", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+                    Sach sach = new Sach(maLoai, tenSach, gia, maLoai,nxb);
+
 
                     if (sachDAO.insert(sach) > 0) {
                         Toast.makeText(getContext(), "Thêm sách thành công", Toast.LENGTH_SHORT).show();
@@ -114,7 +119,7 @@ public class QLSach extends Fragment {
                     }
                 } catch (NumberFormatException e) {
                     // Xử lý khi xảy ra lỗi chuyển đổi từ chuỗi sang số
-                    Toast.makeText(getContext(), "Lỗi: Giá phải là số nguyên", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Lỗi: Giá và nhà xuất bản phải là số nguyên", Toast.LENGTH_SHORT).show();
                 }
             }
         });

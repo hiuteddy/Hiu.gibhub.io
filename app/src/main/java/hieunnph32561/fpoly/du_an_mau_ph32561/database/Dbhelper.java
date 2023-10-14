@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class Dbhelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Duanmau";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 1;
 
     public Dbhelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -42,7 +42,8 @@ public class Dbhelper extends SQLiteOpenHelper {
         String createTABLEsach = "CREATE TABLE SACH (" +
                 "MASACH INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "TENSACH TEXT NOT NULL, " +
-                "GIATHUE INTEGER NOT NULL, " +
+                "GIATHUE INTEGER NOT NULL," +
+                "NAMXB INTEGER NOT NULL," +
                 "MALOAI INTEGER REFERENCES LOAISACH(MALOAI))";
         db.execSQL(createTABLEsach);
 

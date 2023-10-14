@@ -82,12 +82,12 @@ public class loaisachDAO {
         String sql = "select * from LOAISACH where MALOAI=?";
         ArrayList<Loaisach> list = getALLSACH(sql, id);
 
-//        if (!list.isEmpty()) {
+        if (!list.isEmpty()) {
             return list.get(0);
-//       } else {
-//           // Trả về một giá trị LoaiSach mặc định hoặc tạo một đối tượng mới tùy ý
-//           return new Loaisach();
-//       }
+       } else {
+           // Trả về một giá trị LoaiSach mặc định hoặc tạo một đối tượng mới tùy ý
+           return new Loaisach();
+       }
     }
 
 

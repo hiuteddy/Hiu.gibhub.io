@@ -3,12 +3,15 @@ package hieunnph32561.fpoly.du_an_mau_ph32561.Fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -21,6 +24,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import hieunnph32561.fpoly.du_an_mau_ph32561.R;
@@ -39,23 +44,87 @@ public class QLSach extends Fragment {
     ArrayList<Loaisach> listLS = new ArrayList<>();
     ArrayList<Sach> list = new ArrayList<>();
 
+    ArrayList<Sach> listtk = new ArrayList<>();
+
+    EditText btntimkiem;
+    ImageView imgsx,imgsxtang;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.framgment_ql_sach, container, false);
         rcvSach = view.findViewById(R.id.rcls);
+        btntimkiem = view.findViewById(R.id.editTimkiem);
+        imgsx=view.findViewById(R.id.imgsapxepxuong);
+        imgsxtang=view.findViewById(R.id.imgsapxeplen);
 
         loaiSachDAO = new loaisachDAO(getContext());
         sachDAO = new sachDAO(getContext());
 
 
         list = sachDAO.getAll();
+
+        listtk = sachDAO.getAll();
         sachAdapter = new adapter_sach(getContext(), list);
         rcvSach.setAdapter(sachAdapter);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rcvSach.setLayoutManager(layoutManager);
+
+        imgsxtang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Comparator<Sach> comparator = new Comparator<Sach>() {
+                    @Override
+                    public int compare(Sach o1, Sach o2) {
+
+                        return o1.getGiaThue() - o2.getGiaThue();
+                    }
+                };
+                Collections.sort(list, comparator);
+                sachAdapter.notifyDataSetChanged();
+            }
+        });
+        imgsx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Comparator<Sach> comparator = new Comparator<Sach>() {
+                    @Override
+                    public int compare(Sach o1, Sach o2) {
+
+                        return o2.getGiaThue() - o1.getGiaThue();
+                    }
+                };
+                Collections.sort(list, comparator);
+                sachAdapter.notifyDataSetChanged();
+            }
+        });
+
+        btntimkiem.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                list.clear();
+                for (Sach sach : listtk) {
+                    if (String.valueOf(sach.getTenSach()).contains(s.toString())){
+                        list.add(sach);
+                    };
+                }
+                sachAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
 
 
         FloatingActionButton fabAddSach = view.findViewById(R.id.floatads);
@@ -93,7 +162,7 @@ public class QLSach extends Fragment {
         btnXacnhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (edtTenSach.getText().toString().isEmpty() || edtGia.getText().toString().isEmpty()|| edtnxb.getText().toString().isEmpty()) {
+                if (edtTenSach.getText().toString().isEmpty() || edtGia.getText().toString().isEmpty() || edtnxb.getText().toString().isEmpty()) {
                     Toast.makeText(getContext(), "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -105,7 +174,7 @@ public class QLSach extends Fragment {
                     Loaisach loaiSach = (Loaisach) spnLoaiSach.getSelectedItem();
                     int maLoai = loaiSach.getMaLoai(); // Giả sử bạn có một phương thức getMaLoai() để lấy mã loại sách
 
-                    Sach sach = new Sach(maLoai, tenSach, gia, maLoai,nxb);
+                    Sach sach = new Sach(maLoai, tenSach, gia, maLoai, nxb);
 
 
                     if (sachDAO.insert(sach) > 0) {

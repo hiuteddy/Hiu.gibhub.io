@@ -5,7 +5,49 @@
     android:baselineAligned="false"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/lnla"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:layout_weight="7"
+            android:id="@+id/editTimkiem"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableLeft="@drawable/baseline_search_24"
+            android:background="@drawable/edittext_bg"
+            android:ems="10"
+            android:hint="Serch"
+            android:inputType="text" />
+
+        <ImageView
+            android:background="@drawable/baseline_arrow_downward_24"
+            android:id="@+id/imgsapxepxuong"
+            android:layout_marginTop="9dp"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            />
+
+        <ImageView
+            android:background="@drawable/baseline_arrow_upward_24"
+            android:id="@+id/imgsapxeplen"
+            android:layout_marginTop="9dp"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/lnla"
         android:id="@+id/rcls"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -107,20 +107,20 @@ public class Dbhelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Xóa bảng cũ nếu tồn tại
-        String dropTABLEthuthu = "DROP TABLE IF EXISTS THUTHU";
-        db.execSQL(dropTABLEthuthu);
-
-        String dropTABLEthanhvien = "DROP TABLE IF EXISTS THANHVIEN";
-        db.execSQL(dropTABLEthanhvien);
-
-        String dropTABLEls = "DROP TABLE IF EXISTS LOAISACH";
-        db.execSQL(dropTABLEls);
+//        String dropTABLEthuthu = "DROP TABLE IF EXISTS THUTHU";
+//        db.execSQL(dropTABLEthuthu);
+//
+//        String dropTABLEthanhvien = "DROP TABLE IF EXISTS THANHVIEN";
+//        db.execSQL(dropTABLEthanhvien);
+//
+//        String dropTABLEls = "DROP TABLE IF EXISTS LOAISACH";
+//        db.execSQL(dropTABLEls);
 
         String dropTABLEsach = "DROP TABLE IF EXISTS SACH";
         db.execSQL(dropTABLEsach);
 
-        String dropTABLEphieumuon = "DROP TABLE IF EXISTS PhieuMuon";
-        db.execSQL(dropTABLEphieumuon);
+//        String dropTABLEphieumuon = "DROP TABLE IF EXISTS PhieuMuon";
+//        db.execSQL(dropTABLEphieumuon);
 
         onCreate(db);
     }

@@ -1,4 +1,4 @@
-package hieunnph32561.fpoly.du_an_mau_ph32561.Fragment;
+package hieunnph32561.fpoly.du_an_mau_ph32561.fragment;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +24,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import hieunnph32561.fpoly.du_an_mau_ph32561.R;
 import hieunnph32561.fpoly.du_an_mau_ph32561.adapter.PhieuMuonClick;
@@ -48,6 +51,8 @@ public class QlPhieuMuon extends Fragment {
     long millis = System.currentTimeMillis();
     java.sql.Date date = new java.sql.Date(millis);
 
+    ImageView sxtang;
+
     private int matv,mas,tien;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -60,6 +65,7 @@ public class QlPhieuMuon extends Fragment {
 
         recyclerView = view.findViewById(R.id.rclpm);
         flbtn = view.findViewById(R.id.floatadd);
+        sxtang=view.findViewById(R.id.imalen);
 
         dao = new phieumuonDAO(getContext());
         lista = dao.getAll();
@@ -77,6 +83,13 @@ public class QlPhieuMuon extends Fragment {
             @Override
             public void onClick(View v) {
                 showaddpm();
+            }
+        });
+
+        sxtang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hamsxtang();
             }
         });
 
@@ -212,6 +225,27 @@ public class QlPhieuMuon extends Fragment {
         return view;
     }
 
+    private void hamsxtang() {
+        // Tạo một Comparator để sắp xếp dựa trên mã sách
+        Comparator<Phieumuon> comparator = new Comparator<Phieumuon>() {
+            @Override
+            public int compare(Phieumuon pm1, Phieumuon pm2) {
+                // Lấy tên sách tương ứng với mã sách từ bảng sách
+                Sach sach1 = sachDao.getID(String.valueOf(pm1.getMasach()));
+                Sach sach2 = sachDao.getID(String.valueOf(pm2.getMasach()));
+
+                return sach1.getTenSach().compareTo(sach2.getTenSach());
+            }
+        };
+
+        // Sắp xếp danh sách phiếu mượn
+        Collections.sort(lista, comparator);
+
+        // Cập nhật RecyclerView hoặc danh sách đã sắp xếp
+        phieumuonn.notifyDataSetChanged();
+    }
+
+
     public void showaddpm() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -329,4 +363,23 @@ public class QlPhieuMuon extends Fragment {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

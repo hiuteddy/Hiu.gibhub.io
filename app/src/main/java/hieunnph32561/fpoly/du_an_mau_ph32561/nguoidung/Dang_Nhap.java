@@ -11,7 +11,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import hieunnph32561.fpoly.du_an_mau_ph32561.Fragment.Trang_chu;
+import hieunnph32561.fpoly.du_an_mau_ph32561.fragment.Trang_chu;
 import hieunnph32561.fpoly.du_an_mau_ph32561.R;
 import hieunnph32561.fpoly.du_an_mau_ph32561.dao.thuthuDAO;
 

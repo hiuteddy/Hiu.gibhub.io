@@ -10,13 +10,14 @@
         android:id="@+id/textViewTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="#7045BC"
+        android:gravity="center"
+        android:padding="16dp"
         android:text="Thêm Loại Sách"
         android:textColor="#C9E3F8"
         android:textSize="30sp"
-        android:textStyle="bold"
-        android:background="#7045BC"
-        android:padding="16dp"
-        android:gravity="center"  />
+        android:textStyle="bold" />
 
 
     <com.google.android.material.textfield.TextInputLayout

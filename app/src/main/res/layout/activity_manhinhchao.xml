@@ -74,5 +74,18 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView7"
         app:layout_constraintVertical_bias="0.702" />
 
+<!--    <EditText-->
+<!--        android:id="@+id/edtnhap"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:layout_margin="30dp"-->
+<!--        android:background="@drawable/edittext_bg"-->
+<!--        android:hint="Nhập"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/imageView7"-->
+<!--        app:layout_constraintVertical_bias="0.0" />-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

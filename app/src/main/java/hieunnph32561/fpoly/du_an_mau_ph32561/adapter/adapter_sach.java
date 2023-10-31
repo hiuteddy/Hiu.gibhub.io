@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -67,6 +68,13 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
         holder.theloai.setText(loaisach.getTenLoai()); // Lấy tên thể loại sách từ đối tượng Loaisach
         holder.giasach.setText("" + sach.getGiaThue());
         holder.namxb.setText(""+sach.getNamXb());
+        if(sach.getNamXb() <=2010){
+            int x = ContextCompat.getColor(context,R.color.blue);
+            holder.namxb.setTextColor(x);
+        }else {
+            int xa =ContextCompat.getColor(context,R.color.red);
+            holder.namxb.setTextColor(xa);
+        }
 
 
 
@@ -128,7 +136,7 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
 
                 edtTenSach.setText(list.get(position).getTenSach());
                 edtGia.setText(String.valueOf(list.get(position).getGiaThue()));
-                edtnxb.setText(String.valueOf(list.get(position).getNamXb()));
+               edtnxb.setText(String.valueOf(list.get(position).getNamXb()));
 
 
                 int vt_sach = -1;
@@ -156,7 +164,7 @@ public class adapter_sach extends RecyclerView.Adapter<adapter_sach.ViewHodelsan
                             sach.setMaLoai(lsach.getMaLoai());
                             sach.setTenSach(edtTenSach.getText().toString());
                             sach.setGiaThue(Integer.parseInt((edtGia.getText().toString())));
-                            sach.setNamXb(Integer.parseInt((edtnxb.getText().toString())));
+                           sach.setNamXb(Integer.parseInt((edtnxb.getText().toString())));
 
 
                             // Thêm phiếu mượn vào cơ sở dữ liệu

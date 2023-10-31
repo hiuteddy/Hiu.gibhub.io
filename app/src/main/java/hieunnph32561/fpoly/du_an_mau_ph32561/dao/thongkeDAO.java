@@ -26,7 +26,7 @@ public class thongkeDAO {
 
     @SuppressLint("Range")
     public List<Top> getTop() {
-        String sqlTop = "select MASACH, count(MASACH) as soLuong from PHIEUMUON group by MASACH order by soLuong desc limit 10";
+        String sqlTop = "select maSach, count(maSach) as soLuong from PHIEUMUON group by maSach order by soLuong desc limit 10";
         List<Top> list = new ArrayList<Top>();
         sachDAO sachDao = new sachDAO(context);
         SQLiteDatabase database = dbhelper.getWritableDatabase();
@@ -34,7 +34,7 @@ public class thongkeDAO {
 
         while (cursor.moveToNext()) {
             @SuppressLint("Range") Top top = new Top();
-            Sach sach = sachDao.getID(cursor.getString(cursor.getColumnIndex("MASACH")));
+            Sach sach = sachDao.getID(cursor.getString(cursor.getColumnIndex("maSach")));
             top.tensach = sach.getTenSach();
             top.soluong = Integer.parseInt(cursor.getString(cursor.getColumnIndex("soLuong")));
 

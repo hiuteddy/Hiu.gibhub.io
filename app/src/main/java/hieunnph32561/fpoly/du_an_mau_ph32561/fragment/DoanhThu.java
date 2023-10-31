@@ -1,4 +1,4 @@
-package hieunnph32561.fpoly.du_an_mau_ph32561.Fragment;
+package hieunnph32561.fpoly.du_an_mau_ph32561.fragment;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;

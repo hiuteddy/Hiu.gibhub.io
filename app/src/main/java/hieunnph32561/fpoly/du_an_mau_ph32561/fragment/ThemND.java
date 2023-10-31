@@ -1,6 +1,5 @@
-package hieunnph32561.fpoly.du_an_mau_ph32561.Fragment;
+package hieunnph32561.fpoly.du_an_mau_ph32561.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import hieunnph32561.fpoly.du_an_mau_ph32561.R;
 import hieunnph32561.fpoly.du_an_mau_ph32561.dao.thuthuDAO;
 import hieunnph32561.fpoly.du_an_mau_ph32561.model.Thuthu;
-import hieunnph32561.fpoly.du_an_mau_ph32561.nguoidung.Dang_Nhap;
 
 public class ThemND extends Fragment {
     private EditText txttendn, txthoten, txtmk, txtxacnhan;

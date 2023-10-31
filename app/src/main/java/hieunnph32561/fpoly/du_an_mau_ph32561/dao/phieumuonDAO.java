@@ -33,16 +33,16 @@ public class phieumuonDAO {
 
         while (cursor.moveToNext()) {
             try {
-                @SuppressLint("Range") Date ngay = sdf.parse(cursor.getString(cursor.getColumnIndex("NGAY")));
+                @SuppressLint("Range") Date ngay = sdf.parse(cursor.getString(cursor.getColumnIndex("ngay")));
 
-           @SuppressLint("Range") Phieumuon pm = new Phieumuon(
-                        cursor.getInt(cursor.getColumnIndex("MAPM")),
-                        cursor.getInt(cursor.getColumnIndex("MATV")),
-                        cursor.getString(cursor.getColumnIndex("MATT")),
-                        cursor.getInt(cursor.getColumnIndex("MASACH")),
+                @SuppressLint("Range") Phieumuon pm = new Phieumuon(
+                        cursor.getInt(cursor.getColumnIndex("maPM")),
+                        cursor.getInt(cursor.getColumnIndex("maTV")),
+                        cursor.getString(cursor.getColumnIndex("maTT")),
+                        cursor.getInt(cursor.getColumnIndex("maSach")),
                         ngay,
-                        cursor.getInt(cursor.getColumnIndex("TRASACH")),
-                        cursor.getInt(cursor.getColumnIndex("TIENTHUE"))
+                        cursor.getInt(cursor.getColumnIndex("traSach")),
+                        cursor.getInt(cursor.getColumnIndex("tienThue"))
                 );
 
                 list.add(pm);
@@ -53,6 +53,8 @@ public class phieumuonDAO {
         cursor.close();
         return list;
     }
+
+
     public ArrayList<Phieumuon> getAll() {
         String sql = "SELECT * FROM PHIEUMUON";
         return (ArrayList<Phieumuon>) getALLPM(sql);
@@ -62,12 +64,12 @@ public class phieumuonDAO {
     public long insert(Phieumuon phieuMuon) {
         SQLiteDatabase sqLiteDatabase = dbhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("MATV", phieuMuon.getMatv());
-        contentValues.put("MATT", phieuMuon.getMatt());
-        contentValues.put("MASACH", phieuMuon.getMasach());
-        contentValues.put("NGAY", sdf.format(phieuMuon.getNgay()));
-        contentValues.put("TRASACH", phieuMuon.getTrasach());
-        contentValues.put("TIENTHUE", phieuMuon.getTienthue());
+        contentValues.put("maTV", phieuMuon.getMatv());
+        contentValues.put("maTT", phieuMuon.getMatt());
+        contentValues.put("maSach", phieuMuon.getMasach());
+        contentValues.put("ngay", sdf.format(phieuMuon.getNgay()));
+        contentValues.put("traSach", phieuMuon.getTrasach());
+        contentValues.put("tienThue", phieuMuon.getTienthue());
 
         return sqLiteDatabase.insert("PHIEUMUON", null, contentValues);
     }
@@ -75,20 +77,20 @@ public class phieumuonDAO {
     public int update(Phieumuon phieuMuon) {
         SQLiteDatabase sqLiteDatabase = dbhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("MATV", phieuMuon.getMatv());
-        contentValues.put("MATT", phieuMuon.getMatt());
-        contentValues.put("MASACH", phieuMuon.getMasach());
-        contentValues.put("NGAY", sdf.format(phieuMuon.getNgay()));
-        contentValues.put("TRASACH", phieuMuon.getTrasach());
-        contentValues.put("TIENTHUE", phieuMuon.getTienthue());
+        contentValues.put("maTV", phieuMuon.getMatv());
+        contentValues.put("maTT", phieuMuon.getMatt());
+        contentValues.put("maSach", phieuMuon.getMasach());
+        contentValues.put("ngay", sdf.format(phieuMuon.getNgay()));
+        contentValues.put("traSach", phieuMuon.getTrasach());
+        contentValues.put("tienThue", phieuMuon.getTienthue());
 
-        return sqLiteDatabase.update("PHIEUMUON", contentValues, "MAPM=?", new String[]{phieuMuon.getMapm() + ""});
+        return sqLiteDatabase.update("PHIEUMUON", contentValues, "maPM=?", new String[]{phieuMuon.getMapm() + ""});
 
     }
 
     public long delete(String mpm) {
         SQLiteDatabase database = dbhelper.getWritableDatabase();
-        long check = database.delete("PHIEUMUON", "MAPM=?", new String[]{mpm});
+        long check = database.delete("PHIEUMUON", "maPM=?", new String[]{mpm});
         return check;
     }
 

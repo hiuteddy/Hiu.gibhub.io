@@ -1,4 +1,4 @@
-package hieunnph32561.fpoly.du_an_mau_ph32561.Fragment;
+package hieunnph32561.fpoly.du_an_mau_ph32561.fragment;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import hieunnph32561.fpoly.du_an_mau_ph32561.R;
 import hieunnph32561.fpoly.du_an_mau_ph32561.adapter.adapter_thanhvien;

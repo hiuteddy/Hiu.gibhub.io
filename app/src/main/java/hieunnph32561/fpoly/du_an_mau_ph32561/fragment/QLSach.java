@@ -1,4 +1,4 @@
-package hieunnph32561.fpoly.du_an_mau_ph32561.Fragment;
+package hieunnph32561.fpoly.du_an_mau_ph32561.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -26,7 +26,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 import hieunnph32561.fpoly.du_an_mau_ph32561.R;
 import hieunnph32561.fpoly.du_an_mau_ph32561.adapter.adapter_sach;
@@ -47,7 +46,7 @@ public class QLSach extends Fragment {
     ArrayList<Sach> listtk = new ArrayList<>();
 
     EditText btntimkiem;
-    ImageView imgsx,imgsxtang;
+    ImageView imgsx, imgsxtang;
 
 
     @Nullable
@@ -56,16 +55,15 @@ public class QLSach extends Fragment {
         View view = inflater.inflate(R.layout.framgment_ql_sach, container, false);
         rcvSach = view.findViewById(R.id.rcls);
         btntimkiem = view.findViewById(R.id.editTimkiem);
-        imgsx=view.findViewById(R.id.imgsapxepxuong);
-        imgsxtang=view.findViewById(R.id.imgsapxeplen);
+        imgsx = view.findViewById(R.id.imgsapxepxuong);
+        imgsxtang = view.findViewById(R.id.imgsapxeplen);
 
         loaiSachDAO = new loaisachDAO(getContext());
         sachDAO = new sachDAO(getContext());
 
 
-        list = sachDAO.getAll();
+       list = sachDAO.getAll();
 
-        listtk = sachDAO.getAll();
         sachAdapter = new adapter_sach(getContext(), list);
         rcvSach.setAdapter(sachAdapter);
 
@@ -93,7 +91,7 @@ public class QLSach extends Fragment {
                     @Override
                     public int compare(Sach o1, Sach o2) {
 
-                        return o2.getGiaThue() - o1.getGiaThue();
+                        return o2.getTenSach() .compareTo( o1.getTenSach());
                     }
                 };
                 Collections.sort(list, comparator);
@@ -109,21 +107,54 @@ public class QLSach extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                listtk = sachDAO.getAll();
                 list.clear();
                 for (Sach sach : listtk) {
-                    if (String.valueOf(sach.getTenSach()).contains(s.toString())){
+                    int namXuatBan = sach.getNamXb();
+                    if (String.valueOf(namXuatBan).contains(s.toString()) ) {
                         list.add(sach);
-                    };
+                    }
                 }
                 sachAdapter.notifyDataSetChanged();
             }
+
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                listtk = sachDAO.getAll();
+//                list.clear();
+//                String namNhapStr = s.toString();
+//
+//                if (namNhapStr.isEmpty()) {
+//                    list.addAll(listtk); // Hiển thị toàn bộ danh sách khi không có năm nhập
+//                } else {
+//                    int namNhap = Integer.parseInt(namNhapStr);
+//
+//                    if (namNhap >= 2000 && namNhap <= 2020) {
+//                        for (Sach sach : listtk) {
+//                            int namXuatBan = sach.getNamXb();
+//                            if (namXuatBan >= 2000 && namXuatBan <= 2020) {
+//                                list.add(sach);
+//                            }
+//                        }
+//                    } else {
+//                        for (Sach sach : listtk) {
+//                            int namXuatBan = sach.getNamXb();
+//                            if (namXuatBan == namNhap) {
+//                                list.add(sach);
+//                                break; // Chỉ hiển thị duy nhất năm nhập nếu không nằm trong khoảng
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                sachAdapter.notifyDataSetChanged();
+          //  }
 
             @Override
             public void afterTextChanged(Editable s) {
 
             }
         });
-
 
 
 
@@ -149,7 +180,9 @@ public class QLSach extends Fragment {
 
         EditText edtTenSach = view1.findViewById(R.id.editts);
         EditText edtGia = view1.findViewById(R.id.editgiasach);
-        EditText edtnxb = view1.findViewById(R.id.editnamxb);
+        EditText edtNamXb = view1.findViewById(R.id.editnamxb);
+
+
 
         Spinner spnLoaiSach = view1.findViewById(R.id.spiner);
         Button btnXacnhan = view1.findViewById(R.id.buttonAddsach);
@@ -162,19 +195,20 @@ public class QLSach extends Fragment {
         btnXacnhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (edtTenSach.getText().toString().isEmpty() || edtGia.getText().toString().isEmpty() || edtnxb.getText().toString().isEmpty()) {
+                if (edtTenSach.getText().toString().isEmpty() || edtGia.getText().toString().isEmpty() || edtGia.getText().toString().isEmpty()) {
                     Toast.makeText(getContext(), "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 try {
                     int gia = Integer.parseInt(edtGia.getText().toString());
                     String tenSach = edtTenSach.getText().toString();
-                    int nxb = Integer.parseInt(edtnxb.getText().toString());
+                    int xb = Integer.parseInt(edtNamXb.getText().toString());
+
 
                     Loaisach loaiSach = (Loaisach) spnLoaiSach.getSelectedItem();
                     int maLoai = loaiSach.getMaLoai(); // Giả sử bạn có một phương thức getMaLoai() để lấy mã loại sách
 
-                    Sach sach = new Sach(maLoai, tenSach, gia, maLoai, nxb);
+                    Sach sach = new Sach(maLoai, tenSach, gia, maLoai,xb);
 
 
                     if (sachDAO.insert(sach) > 0) {

@@ -23,14 +23,14 @@ public class sachDAO {
         dBhelper = new Dbhelper(context);
     }
 
-    // Phương thức để chèn một bản ghi sách vào cơ sở dữ liệu
+
     public long insert(Sach s) {
         SQLiteDatabase database = dBhelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("TENSACH", s.getTenSach());
-        values.put("GIATHUE", s.getGiaThue());
-        values.put("MALOAI", s.getMaLoai());
-        values.put("NAMXB", s.getNamXb());
+        values.put("tenSach", s.getTenSach());
+        values.put("giaThue", s.getGiaThue());
+        values.put("maLoai", s.getMaLoai());
+        values.put("namXB", s.getNamXb());
         return database.insert("SACH", null, values); // Trả về ID của hàng được chèn
     }
 
@@ -38,17 +38,17 @@ public class sachDAO {
     public int upate(Sach s) {
         SQLiteDatabase database = dBhelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("TENSACH", s.getTenSach());
-        values.put("GIATHUE", s.getGiaThue());
-        values.put("MALOAI", s.getMaLoai());
-        values.put("NAMXB", s.getNamXb());
-        return database.update("SACH", values, "MASACH=?", new String[]{s.getMaSach() + ""});
+        values.put("tenSach", s.getTenSach());
+        values.put("giaThue", s.getGiaThue());
+        values.put("maLoai", s.getMaLoai());
+        values.put("namXB", s.getNamXb());
+        return database.update("SACH", values, "maSach=?", new String[]{s.getMaSach() + ""});
     }
 
     // Phương thức để xóa một bản ghi sách khỏi cơ sở dữ liệu
     public long delete(int mssp) {
         SQLiteDatabase database = dBhelper.getWritableDatabase();
-        long check = database.delete("SACH", "MASACH=?", new String[]{String.valueOf(mssp)});
+        long check = database.delete("SACH", "maSach=?", new String[]{String.valueOf(mssp)});
         return check; // Trả về số hàng bị xóa
     }
 
@@ -61,11 +61,11 @@ public class sachDAO {
 
         while (cursor.moveToNext()) {
             @SuppressLint("Range") Sach s = new Sach(
-                    cursor.getInt(cursor.getColumnIndex("MASACH")),
-                    cursor.getString(cursor.getColumnIndex("TENSACH")),
-                    cursor.getInt(cursor.getColumnIndex("GIATHUE")),
-                    cursor.getInt(cursor.getColumnIndex("MALOAI")),
-                    cursor.getInt(cursor.getColumnIndex("NAMXB"))
+                    cursor.getInt(cursor.getColumnIndex("maSach")),
+                    cursor.getString(cursor.getColumnIndex("tenSach")),
+                    cursor.getInt(cursor.getColumnIndex("giaThue")),
+                    cursor.getInt(cursor.getColumnIndex("maLoai")),
+                    cursor.getInt(cursor.getColumnIndex("namXB"))
 
                     );
             list.add(s);
@@ -82,7 +82,7 @@ public class sachDAO {
 
     // Phương thức để lấy một cuốn sách cụ thể bằng ID từ cơ sở dữ liệu
     public Sach getID(String id){
-        String sql = "select * from SACH where MASACH=?";
+        String sql = "select * from SACH where maSach=?";
         ArrayList<Sach> list = getALLSACH(sql, id);
 
         if (!list.isEmpty()) {

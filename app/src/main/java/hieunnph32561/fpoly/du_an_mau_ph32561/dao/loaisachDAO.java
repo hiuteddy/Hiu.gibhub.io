@@ -25,13 +25,13 @@ public class loaisachDAO {
     public long insert(Loaisach s) {
         SQLiteDatabase database = dBhelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("THELOAI", s.getTenLoai());
+        values.put("theLoai", s.getTenLoai());
         return database.insert("LOAISACH", null, values);
     }
 
     public long delete(int mssp) {
         SQLiteDatabase database = dBhelper.getWritableDatabase();
-        long check = database.delete("LOAISACH", "MALOAI=?", new String[]{
+        long check = database.delete("LOAISACH", "maLoai=?", new String[]{
                 String.valueOf(mssp)
         });
         return check;
@@ -40,8 +40,8 @@ public class loaisachDAO {
     public long update(Loaisach s) {
         SQLiteDatabase database = dBhelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("THELOAI", s.getTenLoai());
-        return database.update("LOAISACH", values, "MALOAI=?", new String[]{
+        values.put("theLoai", s.getTenLoai());
+        return database.update("LOAISACH", values, "maLoai=?", new String[]{
                 String.valueOf(s.getMaLoai())
         });
     }
@@ -56,8 +56,8 @@ public class loaisachDAO {
         // Duyệt qua dữ liệu trả về từ truy vấn và tạo đối tượng Loaisach tương ứng
         while (cursor.moveToNext()) {
             @SuppressLint("Range") Loaisach ls = new Loaisach(
-                    cursor.getInt(cursor.getColumnIndex("MALOAI")), // Lấy cột MALOAI
-                    cursor.getString(cursor.getColumnIndex("THELOAI")) // Lấy cột THELOAI
+                    cursor.getInt(cursor.getColumnIndex("maLoai")), // Lấy cột MALOAI
+                    cursor.getString(cursor.getColumnIndex("theLoai")) // Lấy cột THELOAI
             );
             // Thêm đối tượng Loaisach vào danh sách
             list.add(ls);
@@ -79,7 +79,7 @@ public class loaisachDAO {
 
     // Lấy thông tin của một loại sách dựa trên mã loại
     public Loaisach getID(String id) {
-        String sql = "select * from LOAISACH where MALOAI=?";
+        String sql = "select * from LOAISACH where maLoai=?";
         ArrayList<Loaisach> list = getALLSACH(sql, id);
 
         if (!list.isEmpty()) {

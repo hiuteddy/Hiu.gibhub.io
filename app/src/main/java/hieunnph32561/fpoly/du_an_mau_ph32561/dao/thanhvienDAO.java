@@ -31,9 +31,9 @@ public class thanhvienDAO {
 
         while (cursor.moveToNext()) {
             @SuppressLint("Range") Thanhvien tv = new Thanhvien(
-                    cursor.getInt(cursor.getColumnIndex("MATV")),
-                    cursor.getString(cursor.getColumnIndex("HOTEN")),
-                    cursor.getString(cursor.getColumnIndex("NAMSINH"))
+                    cursor.getInt(cursor.getColumnIndex("maTV")),
+                    cursor.getString(cursor.getColumnIndex("hoTen")),
+                    cursor.getString(cursor.getColumnIndex("namSinh"))
             );
             list.add(tv);
         }
@@ -44,18 +44,18 @@ public class thanhvienDAO {
     public long add(Thanhvien tv) {
         SQLiteDatabase database = dBhelper.getWritableDatabase(); // Khởi tạo cơ sở dữ liệu ghi
         ContentValues values = new ContentValues();
-        values.put("HOTEN", tv.getHoten());
-        values.put("NAMSINH", tv.getNamsinh());
+        values.put("hoTen,", tv.getHoten());
+        values.put("namSinh", tv.getNamsinh());
         return database.insert("THANHVIEN", null, values); // Trả về ID của hàng được chèn
     }
 
     public long udt(Thanhvien tv) {
         SQLiteDatabase database = dBhelper.getWritableDatabase(); // Khởi tạo cơ sở dữ liệu ghi
         ContentValues values = new ContentValues();
-        values.put("MATV", tv.getMatv());
-        values.put("HOTEN", tv.getHoten());
-        values.put("NAMSINH", tv.getNamsinh());
-        return database.update("THANHVIEN", values, "MATV=?", new String[]{
+        values.put("maTV", tv.getMatv());
+        values.put("hoTen,", tv.getHoten());
+        values.put("namSinh", tv.getNamsinh());
+        return database.update("THANHVIEN", values, "maTV=?", new String[]{
                 String.valueOf(tv.getMatv())
         });
     }
@@ -63,7 +63,7 @@ public class thanhvienDAO {
     // Phương thức để xóa một thành viên khỏi cơ sở dữ liệu
     public long delete(int mtv) {
         SQLiteDatabase database = dBhelper.getWritableDatabase(); // Khởi tạo cơ sở dữ liệu ghi
-        long check = database.delete("THANHVIEN", "MATV=?", new String[]{
+        long check = database.delete("THANHVIEN", "maTV=?", new String[]{
                 String.valueOf(mtv)
         });
         return check; // Trả về số hàng bị xóa

@@ -30,9 +30,9 @@ public class thuthuDAO {
 
         while (cursor.moveToNext()) {
             @SuppressLint("Range") Thuthu tt = new Thuthu(
-                    cursor.getString(cursor.getColumnIndex("MATT")),
-                    cursor.getString(cursor.getColumnIndex("HOTEN")),
-                    cursor.getString(cursor.getColumnIndex("MATKHAU"))
+                    cursor.getString(cursor.getColumnIndex("maTT")),
+                    cursor.getString(cursor.getColumnIndex("hoTen")),
+                    cursor.getString(cursor.getColumnIndex("matKhau"))
             );
             list.add(tt);
         }
@@ -46,7 +46,7 @@ public class thuthuDAO {
 
 
     public Thuthu getID(String id) {
-        String sql = "select * from THUTHU where MATT=?";
+        String sql = "select * from THUTHU where maTT=?";
         ArrayList<Thuthu> list = getALLTT(sql, id);
 
         if (!list.isEmpty()) {
@@ -59,23 +59,23 @@ public class thuthuDAO {
     public long insert(Thuthu s) {
         SQLiteDatabase database = dBhelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("MATT", s.getMatt());
-        values.put("HOTEN", s.getHoten());
-        values.put("MATKHAU", s.getMatkhau());
+        values.put("maTT", s.getMatt());
+        values.put("hoTen", s.getHoten());
+        values.put("matKhau", s.getMatkhau());
         return database.insert("THUTHU", null, values); // Trả về ID của hàng được chèn
     }
 
     public int upate(Thuthu s) {
         SQLiteDatabase database = dBhelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("HOTEN", s.getHoten());
-        values.put("MATKHAU", s.getMatkhau());
-        return database.update("THUTHU", values, "MATT=?", new String[]{s.getMatt() + ""});
+        values.put("hoTen", s.getHoten());
+        values.put("matKhau", s.getMatkhau());
+        return database.update("THUTHU", values, "maTT=?", new String[]{s.getMatt() + ""});
     }
 
 
     public int checkLogin(String id, String pass) {
-        String sql = "select * from THUTHU where MATT=? and MATKHAU=?";
+        String sql = "select * from THUTHU where maTT=? and MATKHAU=?";
         List<Thuthu> list = getALLTT(sql, id, pass);
         if (list.size() == 0) {
             return -1;
